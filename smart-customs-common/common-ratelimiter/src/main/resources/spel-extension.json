@@ -1,0 +1,7 @@
+{
+  "io.github.yak33.common.ratelimiter.annotation.RateLimiter@key": {
+    "method": {
+      "parameters": true
+    }
+  }
+}

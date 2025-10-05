@@ -1,0 +1,128 @@
+####################################################################################################
+# 开发环境配置模板
+# 使用说明：
+# 1. 复制本文件并重命名为 application-dev.yml
+# 2. 将所有占位符（YOUR_XXX）替换为实际的配置值
+# 3. 注意：application-dev.yml 已被 git 忽略，不会提交到仓库
+####################################################################################################
+
+# 端口配置
+server:
+  port: 8080
+
+# Spring配置
+spring:
+  # redis 配置
+  data:
+    redis:
+      # Redis服务器地址
+      host: YOUR_REDIS_HOST              # 例如：localhost 或 127.0.0.1
+      # Redis服务器连接端口
+      port: YOUR_REDIS_PORT              # 例如：6379
+      # Redis数据库索引（默认为0）
+      database: YOUR_REDIS_DATABASE      # 例如：0
+      # Redis服务器连接密码（默认为空）
+      password: YOUR_REDIS_PASSWORD      # 例如：your_redis_password 或留空
+      # 连接超时时间
+      timeout: 10s
+      # 是否开启ssl
+      ssl:
+        enabled: false
+
+--- # 数据源配置
+spring:
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    # 动态数据源文档 https://www.kancloud.cn/tracy5546/dynamic-datasource/content
+    dynamic:
+      # 性能分析插件(有性能损耗 不建议生产环境使用)
+      p6spy: true
+      # 设置默认的数据源或者数据源组,默认值即为 master
+      primary: master
+      # 严格模式 匹配不到数据源则报错
+      strict: true
+      datasource:
+        # 主库数据源
+        master:
+          type: ${spring.datasource.type}
+          driverClassName: com.mysql.cj.jdbc.Driver
+          # rewriteBatchedStatements=true 批处理优化 大幅提升批量插入更新删除性能(对数据库有性能损耗 使用批量操作应考虑性能问题)
+          url: jdbc:mysql://YOUR_DB_HOST:YOUR_DB_PORT/YOUR_DB_NAME?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8&autoReconnect=true&rewriteBatchedStatements=true&allowPublicKeyRetrieval=true&nullCatalogMeansCurrent=true
+          username: YOUR_DB_USERNAME
+          password: YOUR_DB_PASSWORD
+#        # 从库数据源（可选）
+#        slave:
+#          lazy: true
+#          type: ${spring.datasource.type}
+#          driverClassName: com.mysql.cj.jdbc.Driver
+#          url: jdbc:mysql://YOUR_SLAVE_DB_HOST:YOUR_SLAVE_DB_PORT/YOUR_SLAVE_DB_NAME?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8&autoReconnect=true&rewriteBatchedStatements=true&allowPublicKeyRetrieval=true&nullCatalogMeansCurrent=true
+#          username: YOUR_SLAVE_DB_USERNAME
+#          password: YOUR_SLAVE_DB_PASSWORD
+      hikari:
+        # 最大连接池数量
+        maxPoolSize: 20
+        # 最小空闲线程数量
+        minIdle: 10
+        # 配置获取连接等待超时的时间
+        connectionTimeout: 30000
+        # 校验超时时间
+        validationTimeout: 5000
+        # 空闲连接存活最大时间，默认10分钟
+        idleTimeout: 600000
+        # 此属性控制池中连接的最长生命周期，值0表示无限生命周期，默认30分钟
+        maxLifetime: 1800000
+        # 连接测试query
+        connectionTestQuery: SELECT 1
+
+--- # mail 邮件发送（可选配置）
+mail:
+  enabled: false
+  host: YOUR_MAIL_HOST                   # 例如：smtp.qq.com
+  port: YOUR_MAIL_PORT                   # 例如：465 或 587
+  # 发送者邮箱
+  from: YOUR_MAIL_FROM                   # 例如：your_email@qq.com
+  # 用户名（一般和发送者邮箱一致）
+  user: YOUR_MAIL_USER                   # 例如：your_email@qq.com
+  # 密码（一般为授权码）
+  pass: YOUR_MAIL_PASSWORD               # 例如：your_authorization_code
+  # 使用 STARTTLS安全连接，STARTTLS是对纯文本通信协议的扩展。
+  starttlsEnable: true
+  # 使用SSL安全连接
+  sslEnable: true
+  # SMTP超时时长，单位：毫秒，默认不超时
+  timeout: 0
+  # Socket连接超时值，单位：毫秒，默认不超时
+  connectionTimeout: 0
+
+--- # sms 短信（可选配置）
+sms:
+  enabled: false
+  # 配置节点
+  # 阿里云 dysmsapi.aliyuncs.com
+  # 腾讯云 sms.tencentcloudapi.com
+  endpoint: YOUR_SMS_ENDPOINT
+  # 认证信息
+  accessKeyId: YOUR_SMS_ACCESS_KEY_ID
+  accessKeySecret: YOUR_SMS_ACCESS_KEY_SECRET
+  # 短信签名
+  signName: YOUR_SMS_SIGN_NAME
+  # 短信应用ID（腾讯云需要）
+  sdkAppId: YOUR_SMS_SDK_APP_ID
+
+####################################################################################################
+# 配置项说明：
+# 
+# 【必填项】
+# YOUR_REDIS_HOST         - Redis服务器地址，例如：localhost 或 192.168.1.100
+# YOUR_REDIS_PORT         - Redis端口，默认：6379
+# YOUR_REDIS_DATABASE     - Redis数据库索引，默认：0
+# YOUR_REDIS_PASSWORD     - Redis密码，如无密码则留空
+# YOUR_DB_HOST           - MySQL数据库主机地址，例如：localhost 或 192.168.1.100
+# YOUR_DB_PORT           - MySQL端口，默认：3306
+# YOUR_DB_NAME           - 数据库名称，例如：smart-customs-platform
+# YOUR_DB_USERNAME       - 数据库用户名，例如：root
+# YOUR_DB_PASSWORD       - 数据库密码
+# 
+# 【可选项】
+# 如果需要配置从库、邮件、短信等功能，请取消注释并填写对应的配置项
+####################################################################################################

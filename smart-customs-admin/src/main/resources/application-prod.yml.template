@@ -1,0 +1,133 @@
+####################################################################################################
+# 生产环境配置模板
+# 使用说明：
+# 1. 复制本文件并重命名为 application-prod.yml
+# 2. 将所有占位符（YOUR_XXX）替换为实际的配置值
+# 3. 注意：application-prod.yml 已被 git 忽略，不会提交到仓库
+# 4. 生产环境配置请务必谨慎，建议关闭调试功能，开启安全特性
+####################################################################################################
+
+# 端口配置
+server:
+  port: 8080
+
+# Spring配置
+spring:
+  # redis 配置
+  data:
+    redis:
+      # Redis服务器地址
+      host: YOUR_REDIS_HOST              # 生产环境Redis地址
+      # Redis服务器连接端口
+      port: YOUR_REDIS_PORT              # 例如：6379
+      # Redis数据库索引（默认为0）
+      database: YOUR_REDIS_DATABASE      # 例如：0
+      # Redis服务器连接密码（默认为空）
+      password: YOUR_REDIS_PASSWORD      # 生产环境强烈建议设置密码
+      # 连接超时时间
+      timeout: 10s
+      # 是否开启ssl（生产环境建议开启）
+      ssl:
+        enabled: false
+
+--- # 数据源配置
+spring:
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    # 动态数据源文档 https://www.kancloud.cn/tracy5546/dynamic-datasource/content
+    dynamic:
+      # 性能分析插件(有性能损耗 生产环境建议关闭)
+      p6spy: false
+      # 设置默认的数据源或者数据源组,默认值即为 master
+      primary: master
+      # 严格模式 匹配不到数据源则报错
+      strict: true
+      datasource:
+        # 主库数据源
+        master:
+          type: ${spring.datasource.type}
+          driverClassName: com.mysql.cj.jdbc.Driver
+          # rewriteBatchedStatements=true 批处理优化 大幅提升批量插入更新删除性能(对数据库有性能损耗 使用批量操作应考虑性能问题)
+          url: jdbc:mysql://YOUR_DB_HOST:YOUR_DB_PORT/YOUR_DB_NAME?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8&autoReconnect=true&rewriteBatchedStatements=true&allowPublicKeyRetrieval=true&nullCatalogMeansCurrent=true
+          username: YOUR_DB_USERNAME
+          password: YOUR_DB_PASSWORD
+#        # 从库数据源（生产环境建议配置读写分离）
+#        slave:
+#          lazy: true
+#          type: ${spring.datasource.type}
+#          driverClassName: com.mysql.cj.jdbc.Driver
+#          url: jdbc:mysql://YOUR_SLAVE_DB_HOST:YOUR_SLAVE_DB_PORT/YOUR_SLAVE_DB_NAME?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8&autoReconnect=true&rewriteBatchedStatements=true&allowPublicKeyRetrieval=true&nullCatalogMeansCurrent=true
+#          username: YOUR_SLAVE_DB_USERNAME
+#          password: YOUR_SLAVE_DB_PASSWORD
+      hikari:
+        # 最大连接池数量（生产环境根据实际负载调整）
+        maxPoolSize: 50
+        # 最小空闲线程数量
+        minIdle: 20
+        # 配置获取连接等待超时的时间
+        connectionTimeout: 30000
+        # 校验超时时间
+        validationTimeout: 5000
+        # 空闲连接存活最大时间，默认10分钟
+        idleTimeout: 600000
+        # 此属性控制池中连接的最长生命周期，值0表示无限生命周期，默认30分钟
+        maxLifetime: 1800000
+        # 连接测试query
+        connectionTestQuery: SELECT 1
+
+--- # mail 邮件发送（生产环境配置）
+mail:
+  enabled: true                          # 生产环境建议开启
+  host: YOUR_MAIL_HOST                   # 例如：smtp.qq.com
+  port: YOUR_MAIL_PORT                   # 例如：465 或 587
+  # 发送者邮箱
+  from: YOUR_MAIL_FROM                   # 例如：noreply@yourcompany.com
+  # 用户名（一般和发送者邮箱一致）
+  user: YOUR_MAIL_USER                   # 例如：noreply@yourcompany.com
+  # 密码（一般为授权码）
+  pass: YOUR_MAIL_PASSWORD               # 邮箱授权码
+  # 使用 STARTTLS安全连接
+  starttlsEnable: true
+  # 使用SSL安全连接
+  sslEnable: true
+  # SMTP超时时长，单位：毫秒
+  timeout: 5000
+  # Socket连接超时值，单位：毫秒
+  connectionTimeout: 5000
+
+--- # sms 短信（生产环境配置）
+sms:
+  enabled: true                          # 生产环境建议开启
+  # 配置节点
+  # 阿里云 dysmsapi.aliyuncs.com
+  # 腾讯云 sms.tencentcloudapi.com
+  endpoint: YOUR_SMS_ENDPOINT
+  # 认证信息
+  accessKeyId: YOUR_SMS_ACCESS_KEY_ID
+  accessKeySecret: YOUR_SMS_ACCESS_KEY_SECRET
+  # 短信签名
+  signName: YOUR_SMS_SIGN_NAME
+  # 短信应用ID（腾讯云需要）
+  sdkAppId: YOUR_SMS_SDK_APP_ID
+
+####################################################################################################
+# 生产环境配置注意事项：
+# 
+# 【安全建议】
+# 1. 关闭 p6spy 性能分析插件（已在模板中设置为 false）
+# 2. Redis 必须设置密码
+# 3. 数据库使用独立账号，遵循最小权限原则
+# 4. 开启 SSL/TLS 加密连接
+# 5. 定期更换密码和密钥
+# 
+# 【性能建议】
+# 1. 根据实际负载调整连接池大小
+# 2. 配置数据库读写分离
+# 3. 开启数据库连接池监控
+# 4. 合理设置超时时间
+# 
+# 【监控建议】
+# 1. 配置应用监控和告警
+# 2. 开启数据库慢查询日志
+# 3. 定期检查系统日志
+####################################################################################################

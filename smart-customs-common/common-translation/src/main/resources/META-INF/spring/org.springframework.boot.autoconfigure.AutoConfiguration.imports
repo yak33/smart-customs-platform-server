@@ -1,0 +1,6 @@
+io.github.yak33.common.translation.config.TranslationConfig
+io.github.yak33.common.translation.core.impl.DeptNameTranslationImpl
+io.github.yak33.common.translation.core.impl.DictTypeTranslationImpl
+io.github.yak33.common.translation.core.impl.OssUrlTranslationImpl
+io.github.yak33.common.translation.core.impl.UserNameTranslationImpl
+io.github.yak33.common.translation.core.impl.NicknameTranslationImpl

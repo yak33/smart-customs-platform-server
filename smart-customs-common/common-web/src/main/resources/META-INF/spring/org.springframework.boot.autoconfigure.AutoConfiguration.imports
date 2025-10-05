@@ -1,0 +1,5 @@
+io.github.yak33.common.web.config.CaptchaConfig
+io.github.yak33.common.web.config.FilterConfig
+io.github.yak33.common.web.config.I18nConfig
+io.github.yak33.common.web.config.ResourcesConfig
+io.github.yak33.common.web.config.UndertowConfig

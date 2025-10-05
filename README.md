@@ -250,16 +250,6 @@ java -jar smart-customs-admin/target/smart-customs-admin.jar
 3. 使用 `@ApiOperation` 注解生成接口文档
 4. 访问 `/doc.html` 查看和测试接口
 
-### 多租户开发
-
-```java
-// 在需要租户隔离的实体类上添加注解
-@TableName(value = "sys_user", autoResultMap = true)
-public class SysUser extends BaseEntity {
-    // 租户ID字段会自动处理
-}
-```
-
 ## 🔐 安全配置
 
 ### 密码加密
@@ -288,55 +278,6 @@ public R<String> encryptData() {
 ```java
 @TableField(typeHandler = EncryptTypeHandler.class)
 private String idCard;  // 身份证号自动脱敏
-```
-
-## 📦 部署说明
-
-### JAR 包部署
-
-```bash
-# 1. 打包
-mvn clean package -P prod
-
-# 2. 上传 JAR 包到服务器
-
-# 3. 配置生产环境配置文件
-cp application-prod.yml.template application-prod.yml
-vim application-prod.yml
-
-# 4. 启动应用
-nohup java -jar -Xms512m -Xmx1024m smart-customs-admin.jar --spring.profiles.active=prod > app.log 2>&1 &
-```
-
-### Docker 部署
-
-```bash
-# 1. 构建镜像
-docker build -t smart-customs-platform:0.0.1 .
-
-# 2. 运行容器
-docker run -d -p 8080:8080 \
-  -e SPRING_PROFILES_ACTIVE=prod \
-  -e SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/smart_customs_platform \
-  -e SPRING_REDIS_HOST=redis \
-  --name smart-customs \
-  smart-customs-platform:0.0.1
-```
-
-### Nginx 反向代理配置
-
-```nginx
-server {
-    listen 80;
-    server_name your-domain.com;
-
-    location / {
-        proxy_pass http://localhost:8080;
-        proxy_set_header Host $host;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-    }
-}
 ```
 
 ## 📊 监控和日志

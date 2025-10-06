@@ -71,10 +71,10 @@ public class ErpCurrenciesServiceImpl implements IErpCurrenciesService {
     }
 
     private LambdaQueryWrapper<ErpCurrencies> buildQueryWrapper(ErpCurrenciesBo bo) {
-        Map<String, Object> params = bo.getParams();
         LambdaQueryWrapper<ErpCurrencies> lqw = Wrappers.lambdaQuery();
         lqw.orderByDesc(ErpCurrencies::getCreateTime);
-        lqw.eq(StringUtils.isNotBlank(bo.getCurrency()), ErpCurrencies::getCurrency, bo.getCurrency());
+        lqw.like(StringUtils.isNotBlank(bo.getCode()), ErpCurrencies::getCode, bo.getCode());
+        lqw.like(StringUtils.isNotBlank(bo.getCurrency()), ErpCurrencies::getCurrency, bo.getCurrency());
         lqw.like(StringUtils.isNotBlank(bo.getName()), ErpCurrencies::getName, bo.getName());
         lqw.like(StringUtils.isNotBlank(bo.getEnname()), ErpCurrencies::getEnname, bo.getEnname());
         lqw.eq(bo.getCurrencyOrder() != null, ErpCurrencies::getCurrencyOrder, bo.getCurrencyOrder());

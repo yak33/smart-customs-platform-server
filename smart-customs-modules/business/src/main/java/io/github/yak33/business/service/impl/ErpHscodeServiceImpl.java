@@ -71,22 +71,21 @@ public class ErpHscodeServiceImpl implements IErpHscodeService {
     }
 
     private LambdaQueryWrapper<ErpHscode> buildQueryWrapper(ErpHscodeBo bo) {
-        Map<String, Object> params = bo.getParams();
         LambdaQueryWrapper<ErpHscode> lqw = Wrappers.lambdaQuery();
         lqw.orderByAsc(ErpHscode::getId);
-        lqw.eq(StringUtils.isNotBlank(bo.getHscode()), ErpHscode::getHscode, bo.getHscode());
+        lqw.like(StringUtils.isNotBlank(bo.getHscode()), ErpHscode::getHscode, bo.getHscode());
         lqw.like(StringUtils.isNotBlank(bo.getGname()), ErpHscode::getGname, bo.getGname());
-        lqw.eq(StringUtils.isNotBlank(bo.getControLmark()), ErpHscode::getControLmark, bo.getControLmark());
-        lqw.eq(StringUtils.isNotBlank(bo.getUnit1()), ErpHscode::getUnit1, bo.getUnit1());
+        lqw.like(StringUtils.isNotBlank(bo.getControLmark()), ErpHscode::getControLmark, bo.getControLmark());
+        lqw.like(StringUtils.isNotBlank(bo.getUnit1()), ErpHscode::getUnit1, bo.getUnit1());
         lqw.like(StringUtils.isNotBlank(bo.getUnit1name()), ErpHscode::getUnit1name, bo.getUnit1name());
-        lqw.eq(StringUtils.isNotBlank(bo.getUnit2()), ErpHscode::getUnit2, bo.getUnit2());
+        lqw.like(StringUtils.isNotBlank(bo.getUnit2()), ErpHscode::getUnit2, bo.getUnit2());
         lqw.like(StringUtils.isNotBlank(bo.getUnit2name()), ErpHscode::getUnit2name, bo.getUnit2name());
-        lqw.eq(StringUtils.isNotBlank(bo.getInspmonitorcond()), ErpHscode::getInspmonitorcond, bo.getInspmonitorcond());
-        lqw.eq(StringUtils.isNotBlank(bo.getNotes()), ErpHscode::getNotes, bo.getNotes());
-        lqw.eq(StringUtils.isNotBlank(bo.getSbys()), ErpHscode::getSbys, bo.getSbys());
-        lqw.eq(StringUtils.isNotBlank(bo.getCiqlist()), ErpHscode::getCiqlist, bo.getCiqlist());
-        lqw.eq(StringUtils.isNotBlank(bo.getCiqclass()), ErpHscode::getCiqclass, bo.getCiqclass());
-        lqw.eq(StringUtils.isNotBlank(bo.getSbysRequired()), ErpHscode::getSbysRequired, bo.getSbysRequired());
+        lqw.like(StringUtils.isNotBlank(bo.getInspmonitorcond()), ErpHscode::getInspmonitorcond, bo.getInspmonitorcond());
+        lqw.like(StringUtils.isNotBlank(bo.getNotes()), ErpHscode::getNotes, bo.getNotes());
+        lqw.like(StringUtils.isNotBlank(bo.getSbys()), ErpHscode::getSbys, bo.getSbys());
+        lqw.like(StringUtils.isNotBlank(bo.getCiqlist()), ErpHscode::getCiqlist, bo.getCiqlist());
+        lqw.like(StringUtils.isNotBlank(bo.getCiqclass()), ErpHscode::getCiqclass, bo.getCiqclass());
+        lqw.like(StringUtils.isNotBlank(bo.getSbysRequired()), ErpHscode::getSbysRequired, bo.getSbysRequired());
         lqw.eq(bo.getIsEnable() != null, ErpHscode::getIsEnable, bo.getIsEnable());
         return lqw;
     }

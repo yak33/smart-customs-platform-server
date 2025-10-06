@@ -1,4 +1,4 @@
-# 智慧关务平台 Smart Customs Platform
+# 智慧关务平台后端 Smart Customs Platform Server
 
 <p align="center">
   <img src="https://img.shields.io/badge/Spring%20Boot-3.5.6-brightgreen.svg" alt="Spring Boot"/>
@@ -18,7 +18,7 @@
 
 ## 📖 项目简介
 
-智慧关务平台是一个基于 Spring Boot 3.X 和 Java 21 构建的现代化企业级应用系统，专注于提供智能化的海关业务管理解决方案。项目底层重写自 RuoYi-Vue 和 RuoYi-Vue-Plus，支持多租户、分布式部署，提供完善的权限管理、数据加密、API接口加密等安全特性。
+智慧关务平台后端服务，是一个基于 Spring Boot 3.X 和 Java 21 构建的现代化企业级应用系统，专注于提供智能化的海关业务管理解决方案。项目底层重写自 RuoYi-Vue 和 RuoYi-Vue-Plus，支持多租户、分布式部署，提供完善的权限管理、数据加密、API接口加密等安全特性。
 
 ### ✨ 核心特性
 

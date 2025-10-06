@@ -146,7 +146,6 @@ public class PlusDataPermissionHandler {
             for (DataColumn dataColumn : dataPermission.value()) {
                 // 包含权限标识符 这直接跳过
                 if (ignoreMap.containsKey(dataColumn)) {
-                    // 修复多角色与权限标识符共用问题 https://gitee.com/dromara/RuoYi-Vue-Plus/issues/IB4CS4
                     conditions.add(joinStr + " 1 = 1 ");
                     isSuccess = true;
                     continue;

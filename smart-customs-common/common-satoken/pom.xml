@@ -18,7 +18,7 @@
             <artifactId>common-core</artifactId>
         </dependency>
 
-        <!-- RuoYi Common Redis-->
+        <!-- Common Redis-->
         <dependency>
             <groupId>io.github.yak33</groupId>
             <artifactId>common-redis</artifactId>

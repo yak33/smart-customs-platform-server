@@ -16,7 +16,7 @@
     </description>
 
     <dependencies>
-        <!-- RuoYi Common Core-->
+        <!-- Common Core-->
         <dependency>
             <groupId>io.github.yak33</groupId>
             <artifactId>common-core</artifactId>

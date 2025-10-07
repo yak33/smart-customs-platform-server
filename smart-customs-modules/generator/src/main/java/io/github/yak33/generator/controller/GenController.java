@@ -3,7 +3,9 @@ package io.github.yak33.generator.controller;
 import cn.dev33.satoken.annotation.SaCheckPermission;
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.io.IoUtil;
+import com.baomidou.lock.annotation.Lock4j;
 import io.github.yak33.common.core.domain.R;
+import io.github.yak33.common.idempotent.annotation.RepeatSubmit;
 import io.github.yak33.common.mybatis.helper.DataBaseHelper;
 import io.github.yak33.common.web.core.BaseController;
 import io.github.yak33.common.mybatis.core.page.PageQuery;
@@ -14,11 +16,16 @@ import io.github.yak33.generator.domain.GenTable;
 import io.github.yak33.generator.domain.GenTableColumn;
 import io.github.yak33.generator.service.IGenTableService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.servlet.http.HttpServletResponse;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,6 +35,7 @@ import java.util.Map;
  *
  * @author ZHANGCHAO
  */
+@Slf4j
 @Validated
 @RequiredArgsConstructor
 @RestController
@@ -80,11 +88,8 @@ public class GenController extends BaseController {
     @SaCheckPermission("tool:gen:list")
     @GetMapping(value = "/column/{tableId}")
     public TableDataInfo<GenTableColumn> columnList(@PathVariable("tableId") Long tableId) {
-        TableDataInfo<GenTableColumn> dataInfo = new TableDataInfo<>();
         List<GenTableColumn> list = genTableService.selectGenTableColumnListByTableId(tableId);
-        dataInfo.setRows(list);
-        dataInfo.setTotal(list.size());
-        return dataInfo;
+        return TableDataInfo.build(list);
     }
 
     /**
@@ -94,6 +99,7 @@ public class GenController extends BaseController {
      */
     @SaCheckPermission("tool:gen:import")
     @Log(title = "代码生成", businessType = BusinessType.IMPORT)
+    @RepeatSubmit()
     @PostMapping("/importTable")
     public R<Void> importTableSave(String tables, String dataName) {
         String[] tableNames = Convert.toStrArray(tables);
@@ -108,6 +114,7 @@ public class GenController extends BaseController {
      */
     @SaCheckPermission("tool:gen:edit")
     @Log(title = "代码生成", businessType = BusinessType.UPDATE)
+    @RepeatSubmit()
     @PutMapping
     public R<Void> editSave(@Validated @RequestBody GenTable genTable) {
         genTableService.validateEdit(genTable);
@@ -173,6 +180,7 @@ public class GenController extends BaseController {
      */
     @SaCheckPermission("tool:gen:edit")
     @Log(title = "代码生成", businessType = BusinessType.UPDATE)
+    @Lock4j
     @GetMapping("/synchDb/{tableId}")
     public R<Void> synchDb(@PathVariable("tableId") Long tableId) {
         genTableService.synchDb(tableId);
@@ -190,7 +198,38 @@ public class GenController extends BaseController {
     public void batchGenCode(HttpServletResponse response, String tableIdStr) throws IOException {
         String[] tableIds = Convert.toStrArray(tableIdStr);
         byte[] data = genTableService.downloadCode(tableIds);
+
+        // 保存到本地用于调试
+        saveToLocal(data, tableIdStr);
+
         genCode(response, data);
+    }
+
+    /**
+     * 保存生成的zip文件到本地
+     *
+     * @param data 文件数据
+     * @param tableIdStr 表ID串
+     */
+    private void saveToLocal(byte[] data, String tableIdStr) {
+        try {
+            String timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+            String fileName = "smart_customs_" + timestamp + ".zip";
+            String filePath = System.getProperty("user.dir") + File.separator + "generated" + File.separator + fileName;
+
+            File dir = new File(System.getProperty("user.dir") + File.separator + "generated");
+            if (!dir.exists()) {
+                dir.mkdirs();
+            }
+
+            try (FileOutputStream fos = new FileOutputStream(filePath)) {
+                fos.write(data);
+                fos.flush();
+                log.info("代码生成文件已保存到本地: {}", filePath);
+            }
+        } catch (Exception e) {
+            log.error("保存生成文件到本地失败", e);
+        }
     }
 
     /**

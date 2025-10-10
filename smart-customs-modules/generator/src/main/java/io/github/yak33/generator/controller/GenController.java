@@ -200,7 +200,7 @@ public class GenController extends BaseController {
         byte[] data = genTableService.downloadCode(tableIds);
 
         // 保存到本地用于调试
-        saveToLocal(data, tableIdStr);
+//        saveToLocal(data, tableIdStr);
 
         genCode(response, data);
     }

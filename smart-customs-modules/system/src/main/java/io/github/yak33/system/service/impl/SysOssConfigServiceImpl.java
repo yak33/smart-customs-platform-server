@@ -50,13 +50,25 @@ public class SysOssConfigServiceImpl implements ISysOssConfigService {
     @Override
     public void init() {
         List<SysOssConfig> list = baseMapper.selectList();
+        if (CollUtil.isEmpty(list)) {
+            log.warn("未找到任何OSS配置，请前往【系统管理 -> 文件管理 -> 配置管理】添加配置");
+            return;
+        }
+        
         // 加载OSS初始化配置
+        boolean hasDefault = false;
         for (SysOssConfig config : list) {
             String configKey = config.getConfigKey();
             if ("0".equals(config.getStatus())) {
                 RedisUtils.setCacheObject(OssConstant.DEFAULT_CONFIG_KEY, configKey);
+                hasDefault = true;
+                log.info("设置默认OSS配置: {}", configKey);
             }
             CacheUtils.put(CacheNames.SYS_OSS_CONFIG, config.getConfigKey(), JsonUtils.toJsonString(config));
+        }
+        
+        if (!hasDefault) {
+            log.warn("未找到启用状态(status=0)的OSS配置，请前往【系统管理 -> 文件管理 -> 配置管理】启用一个配置");
         }
     }
 

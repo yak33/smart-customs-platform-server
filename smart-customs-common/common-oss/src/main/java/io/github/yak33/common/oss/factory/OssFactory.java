@@ -33,7 +33,7 @@ public class OssFactory {
         // 获取redis 默认类型
         String configKey = RedisUtils.getCacheObject(OssConstant.DEFAULT_CONFIG_KEY);
         if (StringUtils.isEmpty(configKey)) {
-            throw new OssException("文件存储服务类型无法找到!");
+            throw new OssException("文件存储服务类型无法找到! 请前往【系统管理 -> 文件管理 -> 配置管理】启用OSS存储配置");
         }
         return instance(configKey);
     }

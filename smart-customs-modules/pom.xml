@@ -13,10 +13,8 @@
         <module>business</module>
         <module>demo</module>
         <module>generator</module>
-        <module>job</module>
         <module>system</module>
     </modules>
-
     <artifactId>smart-customs-modules</artifactId>
     <packaging>pom</packaging>
 

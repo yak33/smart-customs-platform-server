@@ -16,7 +16,6 @@
         <module>common-doc</module>
         <module>common-excel</module>
         <module>common-idempotent</module>
-        <module>common-job</module>
         <module>common-log</module>
         <module>common-mail</module>
         <module>common-mybatis</module>

@@ -48,11 +48,6 @@
             <artifactId>system</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>io.github.yak33</groupId>
-            <artifactId>job</artifactId>
-        </dependency>
-
         <!-- 代码生成-->
         <dependency>
             <groupId>io.github.yak33</groupId>

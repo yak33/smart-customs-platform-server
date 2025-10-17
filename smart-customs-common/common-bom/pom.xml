@@ -47,13 +47,6 @@
                 <version>${revision}</version>
             </dependency>
 
-            <!-- 调度模块 -->
-            <dependency>
-                <groupId>io.github.yak33</groupId>
-                <artifactId>common-job</artifactId>
-                <version>${revision}</version>
-            </dependency>
-
             <!-- 日志记录 -->
             <dependency>
                 <groupId>io.github.yak33</groupId>

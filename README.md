@@ -45,7 +45,6 @@
 | Redisson | 3.51.0 | Redis 客户端 & 分布式工具 |
 | Lock4j | 2.2.7 | 分布式锁 |
 | Dynamic-Datasource | 4.3.1 | 动态数据源 |
-| SnailJob | 1.8.0 | 分布式任务调度 |
 | Hutool | 5.8.40 | Java 工具类库 |
 | MapStruct Plus | 1.5.0 | 对象映射工具 |
 | SpringDoc | 2.8.13 | API 文档生成 |
@@ -113,7 +112,6 @@ smart-customs-platform-server
 │   ├── job                         # 任务管理
 │   └── system                      # 系统管理模块
 ├── smart-customs-extend             # 扩展模块
-│   └── snailjob-server             # 分布式任务调度服务
 ├── .gitignore                      # Git 忽略配置
 ├── CHANGELOG.md                    # 更新日志
 ├── CONFIG_README.md                # 配置文件说明
@@ -154,10 +152,6 @@ mysql -u root -p smart_customs_platform < db/schema.sql
 ```bash
 # 主应用配置
 cd smart-customs-admin/src/main/resources
-cp application-dev.yml.template application-dev.yml
-
-# SnailJob Server 配置（如需要）
-cd smart-customs-extend/snailjob-server/src/main/resources
 cp application-dev.yml.template application-dev.yml
 ```
 
@@ -284,9 +278,9 @@ private String idCard;  // 身份证号自动脱敏
 
 ### 应用监控
 
-访问 Spring Boot Admin 监控中心：
-- 地址：http://localhost:8080/actuator
-- 账号密码：配置文件中 monitor.username 和 monitor.password
+应用提供 Spring Boot Actuator 端点用于监控：
+- 健康检查：http://localhost:8080/actuator/health
+- 应用信息：http://localhost:8080/actuator/info
 
 ### 日志管理
 

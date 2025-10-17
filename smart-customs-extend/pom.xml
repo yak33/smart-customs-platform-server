@@ -12,8 +12,6 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>monitor-admin</module>
-        <module>snailjob-server</module>
     </modules>
 
 </project>

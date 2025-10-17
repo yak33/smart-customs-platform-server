@@ -14,15 +14,7 @@ cd smart-customs-admin/src/main/resources
 cp application-dev.yml.template application-dev.yml
 ```
 
-### 2. SnailJob Server 配置
-
-复制模板文件并重命名：
-```bash
-cd smart-customs-extend/snailjob-server/src/main/resources
-cp application-dev.yml.template application-dev.yml
-```
-
-### 3. 填写配置信息
+### 2. 填写配置信息
 
 打开 `application-dev.yml` 文件，将所有 `YOUR_XXX` 占位符替换为实际的配置值：
 
@@ -53,7 +45,6 @@ cp application-dev.yml.template application-dev.yml
 ```bash
 # 从 Git 缓存中移除文件（保留本地文件）
 git rm --cached smart-customs-admin/src/main/resources/application-dev.yml
-git rm --cached smart-customs-extend/snailjob-server/src/main/resources/application-dev.yml
 
 # 提交更改
 git commit -m "🔒 移除敏感配置文件"
@@ -76,10 +67,6 @@ git push origin main
 ```bash
 # 启动主应用
 cd smart-customs-admin
-mvn spring-boot:run
-
-# 启动 SnailJob Server（如需要）
-cd smart-customs-extend/snailjob-server
 mvn spring-boot:run
 ```
 

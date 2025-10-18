@@ -139,6 +139,7 @@ tenant:
     - erp_currencies
     - erp_hscode
     - erp_customs_ports
+    - erp_units
 
 # MyBatisPlus配置
 # https://baomidou.com/config/

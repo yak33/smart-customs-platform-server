@@ -2,6 +2,8 @@ package ${packageName}.domain.bo;
 
 import ${packageName}.domain.${ClassName};
 import io.github.yak33.common.mybatis.core.domain.BaseEntity;
+import io.github.yak33.common.core.validate.AddGroup;
+import io.github.yak33.common.core.validate.EditGroup;
 import io.github.linpeilie.annotations.AutoMapper;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

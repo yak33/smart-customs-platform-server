@@ -6,16 +6,14 @@ import ${import};
 import ${packageName}.domain.${ClassName};
 import cn.idev.excel.annotation.ExcelIgnoreUnannotated;
 import cn.idev.excel.annotation.ExcelProperty;
-import annotation.io.github.yak33.common.excel.ExcelDictFormat;
-import convert.io.github.yak33.common.excel.ExcelDictConvert;
+import io.github.yak33.common.excel.annotation.ExcelDictFormat;
+import io.github.yak33.common.excel.convert.ExcelDictConvert;
 import io.github.linpeilie.annotations.AutoMapper;
 import lombok.Data;
 
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.Date;
-
-
 
 /**
  * ${functionName}视图对象 ${tableName}

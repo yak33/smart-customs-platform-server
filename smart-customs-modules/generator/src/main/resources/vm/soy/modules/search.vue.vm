@@ -103,7 +103,7 @@ async function search() {
                 value-format="yyyy-MM-dd HH:mm:ss"
                 clearable
               />
-#else              <NInput v-model:value="model.$column.javaField" placeholder="请输入$column.columnComment" />
+#else              <NInput v-model:value="model.$column.javaField" placeholder="请输入$column.columnComment" @keyup.enter="search" />
     #end
             </NFormItemGi>
   #end

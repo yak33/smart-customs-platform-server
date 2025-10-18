@@ -176,7 +176,7 @@ function handleExport() {
         :data="data"
         size="small"
         :flex-height="!appStore.isMobile"
-        :scroll-x="1962"
+        :scroll-x="962"
         :loading="loading"
         remote
         :row-key="row => row.#foreach($column in $columns)#if($column.isPk == '1')$column.javaField#end#end"

@@ -140,6 +140,7 @@ tenant:
     - erp_hscode
     - erp_customs_ports
     - erp_units
+    - customer_enterprise
 
 # MyBatisPlus配置
 # https://baomidou.com/config/

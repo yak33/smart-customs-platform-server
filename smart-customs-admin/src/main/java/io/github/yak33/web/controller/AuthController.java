@@ -106,7 +106,7 @@ public class AuthController {
         Long userId = LoginHelper.getUserId();
         scheduledExecutorService.schedule(() -> {
             SseMessageDto dto = new SseMessageDto();
-            dto.setMessage("欢迎登录智慧关务平台");
+            dto.setMessage("欢迎登录👉智慧关务平台");
             dto.setUserIds(List.of(userId));
             SseMessageUtils.publishMessage(dto);
         }, 5, TimeUnit.SECONDS);

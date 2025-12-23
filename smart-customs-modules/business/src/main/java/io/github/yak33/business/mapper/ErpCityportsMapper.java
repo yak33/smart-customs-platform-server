@@ -8,7 +8,7 @@ import io.github.yak33.common.mybatis.core.mapper.BaseMapperPlus;
  * 港口Mapper接口
  *
  * @author ZHANGCHAO
- * @date 2025-06-23
+ * @date 2025-12-23
  */
 public interface ErpCityportsMapper extends BaseMapperPlus<ErpCityports, ErpCityportsVo> {
 

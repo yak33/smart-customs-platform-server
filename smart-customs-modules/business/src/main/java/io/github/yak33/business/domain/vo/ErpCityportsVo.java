@@ -12,13 +12,11 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.util.Date;
 
-
-
 /**
  * 港口视图对象 erp_cityports
  *
  * @author ZHANGCHAO
- * @date 2025-06-23
+ * @date 2025-12-23
  */
 @Data
 @ExcelIgnoreUnannotated
@@ -51,25 +49,6 @@ public class ErpCityportsVo implements Serializable {
      */
     @ExcelProperty(value = "英文名")
     private String enname;
-
-    /**
-     * 创建人
-     */
-    @ExcelProperty(value = "创建人")
-    private String createBy;
-
-    /**
-     * 删除标记（0正常 1已删除）
-     */
-    @ExcelProperty(value = "删除标记", converter = ExcelDictConvert.class)
-    @ExcelDictFormat(readConverterExp = "0=正常,1=已删除")
-    private Long delFlag;
-
-    /**
-     * 创建时间
-     */
-    @ExcelProperty(value = "创建时间")
-    private Date createTime;
 
 
 }

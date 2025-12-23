@@ -11,7 +11,7 @@ import java.io.Serial;
  * 港口对象 erp_cityports
  *
  * @author ZHANGCHAO
- * @date 2025-06-23
+ * @date 2025-12-23
  */
 @Data
 @EqualsAndHashCode(callSuper = true)

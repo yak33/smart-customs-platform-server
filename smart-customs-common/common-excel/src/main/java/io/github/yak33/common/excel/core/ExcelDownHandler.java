@@ -12,6 +12,7 @@ import cn.idev.excel.util.ClassUtils;
 import cn.idev.excel.write.handler.SheetWriteHandler;
 import cn.idev.excel.write.metadata.holder.WriteSheetHolder;
 import cn.idev.excel.write.metadata.holder.WriteWorkbookHolder;
+import io.github.yak33.common.excel.annotation.ExcelDynamicOptions;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddressList;
@@ -117,6 +118,15 @@ public class ExcelDownHandler implements SheetWriteHandler {
                 ExcelEnumFormat format = field.getDeclaredAnnotation(ExcelEnumFormat.class);
                 List<Object> values = EnumUtil.getFieldValues(format.enumClass(), format.textField());
                 options = StreamUtils.toList(values, Convert::toStr);
+            } else if (field.isAnnotationPresent(ExcelDynamicOptions.class)) {
+                // 处理动态下拉选项
+                ExcelDynamicOptions dynamicOptions = field.getDeclaredAnnotation(ExcelDynamicOptions.class);
+                // 获取提供者实例
+                ExcelOptionsProvider provider = SpringUtils.getBean(dynamicOptions.providerClass());
+                Set<String> providerOptions = provider.getOptions();
+                if (CollUtil.isNotEmpty(providerOptions)) {
+                    options = new ArrayList<>(providerOptions);
+                }
             }
             if (ObjectUtil.isNotEmpty(options)) {
                 // 仅当下拉可选项不为空时执行

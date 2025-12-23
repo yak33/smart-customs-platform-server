@@ -1,6 +1,7 @@
 package io.github.yak33.system.service.impl;
 
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.crypto.SecureUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
@@ -136,4 +137,19 @@ public class SysClientServiceImpl implements ISysClientService {
     public Boolean deleteWithValidByIds(Collection<Long> ids, Boolean isValid) {
         return baseMapper.deleteByIds(ids) > 0;
     }
+
+    /**
+     * 校验客户端key是否唯一
+     *
+     * @param client 客户端信息
+     * @return 结果
+     */
+    @Override
+    public boolean checkClickKeyUnique(SysClientBo client) {
+        boolean exist = baseMapper.exists(new LambdaQueryWrapper<SysClient>()
+            .eq(SysClient::getClientKey, client.getClientKey())
+            .ne(ObjectUtil.isNotNull(client.getId()), SysClient::getId, client.getId()));
+        return !exist;
+    }
+
 }

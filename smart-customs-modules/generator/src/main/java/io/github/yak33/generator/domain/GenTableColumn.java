@@ -15,7 +15,7 @@ import jakarta.validation.constraints.NotBlank;
 /**
  * 代码生成业务字段表 gen_table_column
  *
- * @author ZHANGCHAO
+ * @author Lion Li
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
@@ -115,6 +115,7 @@ public class GenTableColumn extends BaseEntity {
     /**
      * 字典类型
      */
+    @TableField(updateStrategy = FieldStrategy.ALWAYS, jdbcType = JdbcType.VARCHAR)
     private String dictType;
 
     /**

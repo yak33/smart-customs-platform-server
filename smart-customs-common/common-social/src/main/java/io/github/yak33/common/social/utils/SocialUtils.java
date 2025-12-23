@@ -37,13 +37,13 @@ public class SocialUtils  {
 
     public static AuthRequest getAuthRequest(String source, SocialProperties socialProperties) throws AuthException {
         SocialLoginConfigProperties obj = socialProperties.getType().get(source);
-         if (ObjectUtil.isNull(obj)) {
+        if (ObjectUtil.isNull(obj)) {
             throw new AuthException("不支持的第三方登录类型");
         }
         AuthConfig.AuthConfigBuilder builder = AuthConfig.builder()
             .clientId(obj.getClientId())
             .clientSecret(obj.getClientSecret())
-            .redirectUri(URLEncoder.encode(obj.getRedirectUri(), StandardCharsets.UTF_8))
+            .redirectUri(obj.getRedirectUri())
             .scopes(obj.getScopes());
         return switch (source.toLowerCase()) {
             case "dingtalk" -> new AuthDingTalkV2Request(builder.build(), STATE_CACHE);
@@ -60,7 +60,7 @@ public class SocialUtils  {
             case "taobao" -> new AuthTaobaoRequest(builder.build(), STATE_CACHE);
             case "douyin" -> new AuthDouyinRequest(builder.build(), STATE_CACHE);
             case "linkedin" -> new AuthLinkedinRequest(builder.build(), STATE_CACHE);
-            case "microsoft" -> new AuthMicrosoftRequest(builder.build(), STATE_CACHE);
+            case "microsoft" -> new AuthMicrosoftRequest(builder.tenantId(obj.getTenantId()).build(), STATE_CACHE);
             case "renren" -> new AuthRenrenRequest(builder.build(), STATE_CACHE);
             case "stack_overflow" -> new AuthStackOverflowRequest(builder.stackOverflowKey(obj.getStackOverflowKey()).build(), STATE_CACHE);
             case "huawei" -> new AuthHuaweiV3Request(builder.build(), STATE_CACHE);

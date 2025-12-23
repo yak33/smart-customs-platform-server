@@ -33,9 +33,8 @@ import java.util.Map;
 /**
  * 代码生成 操作处理
  *
- * @author ZHANGCHAO
+ * @author Lion Li
  */
-@Slf4j
 @Validated
 @RequiredArgsConstructor
 @RestController
@@ -58,6 +57,7 @@ public class GenController extends BaseController {
      *
      * @param tableId 表ID
      */
+    @RepeatSubmit()
     @SaCheckPermission("tool:gen:query")
     @GetMapping(value = "/{tableId}")
     public R<Map<String, Object>> getInfo(@PathVariable Long tableId) {
@@ -95,10 +95,12 @@ public class GenController extends BaseController {
     /**
      * 导入表结构（保存）
      *
-     * @param tables 表名串
+     * @param tables   表名串
+     * @param dataName 数据源名称
      */
     @SaCheckPermission("tool:gen:import")
     @Log(title = "代码生成", businessType = BusinessType.IMPORT)
+    @Lock4j(keys = {"#dataName"}, acquireTimeout = 10000)
     @RepeatSubmit()
     @PostMapping("/importTable")
     public R<Void> importTableSave(String tables, String dataName) {
@@ -180,7 +182,7 @@ public class GenController extends BaseController {
      */
     @SaCheckPermission("tool:gen:edit")
     @Log(title = "代码生成", businessType = BusinessType.UPDATE)
-    @Lock4j
+    @Lock4j(keys = {"#tableId"}, acquireTimeout = 5000)
     @GetMapping("/synchDb/{tableId}")
     public R<Void> synchDb(@PathVariable("tableId") Long tableId) {
         genTableService.synchDb(tableId);
@@ -198,38 +200,7 @@ public class GenController extends BaseController {
     public void batchGenCode(HttpServletResponse response, String tableIdStr) throws IOException {
         String[] tableIds = Convert.toStrArray(tableIdStr);
         byte[] data = genTableService.downloadCode(tableIds);
-
-        // 保存到本地用于调试
-//        saveToLocal(data, tableIdStr);
-
         genCode(response, data);
-    }
-
-    /**
-     * 保存生成的zip文件到本地
-     *
-     * @param data 文件数据
-     * @param tableIdStr 表ID串
-     */
-    private void saveToLocal(byte[] data, String tableIdStr) {
-        try {
-            String timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-            String fileName = "smart_customs_" + timestamp + ".zip";
-            String filePath = System.getProperty("user.dir") + File.separator + "generated" + File.separator + fileName;
-
-            File dir = new File(System.getProperty("user.dir") + File.separator + "generated");
-            if (!dir.exists()) {
-                dir.mkdirs();
-            }
-
-            try (FileOutputStream fos = new FileOutputStream(filePath)) {
-                fos.write(data);
-                fos.flush();
-                log.info("代码生成文件已保存到本地: {}", filePath);
-            }
-        } catch (Exception e) {
-            log.error("保存生成文件到本地失败", e);
-        }
     }
 
     /**
@@ -239,7 +210,7 @@ public class GenController extends BaseController {
         response.reset();
         response.addHeader("Access-Control-Allow-Origin", "*");
         response.addHeader("Access-Control-Expose-Headers", "Content-Disposition");
-        response.setHeader("Content-Disposition", "attachment; filename=\"smart_customs.zip\"");
+        response.setHeader("Content-Disposition", "attachment; filename=\"ruoyi.zip\"");
         response.addHeader("Content-Length", "" + data.length);
         response.setContentType("application/octet-stream; charset=UTF-8");
         IoUtil.write(response.getOutputStream(), false, data);
@@ -250,7 +221,7 @@ public class GenController extends BaseController {
      */
     @SaCheckPermission("tool:gen:list")
     @GetMapping(value = "/getDataNames")
-    public R<Object> getCurrentDataSourceNameList(){
+    public R<Object> getCurrentDataSourceNameList() {
         return R.ok(DataBaseHelper.getDataSourceNameList());
     }
 }

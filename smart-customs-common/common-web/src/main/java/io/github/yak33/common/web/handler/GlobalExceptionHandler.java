@@ -15,6 +15,7 @@ import io.github.yak33.common.core.exception.base.BaseException;
 import io.github.yak33.common.core.utils.StreamUtils;
 import io.github.yak33.common.json.utils.JsonUtils;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
+import org.springframework.expression.ExpressionException;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.BindException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
@@ -23,6 +24,7 @@ import org.springframework.web.bind.MissingPathVariableException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.context.request.async.AsyncRequestTimeoutException;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
@@ -31,7 +33,7 @@ import java.io.IOException;
 /**
  * 全局异常处理器
  *
- * @author ZHANGCHAO
+ * @author Lion Li
  */
 @Slf4j
 @RestControllerAdvice
@@ -42,7 +44,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
     public R<Void> handleHttpRequestMethodNotSupported(HttpRequestMethodNotSupportedException e,
-                                                                HttpServletRequest request) {
+                                                       HttpServletRequest request) {
         String requestURI = request.getRequestURI();
         log.error("请求地址'{}',不支持'{}'请求", requestURI, e.getMethod());
         return R.fail(HttpStatus.HTTP_BAD_METHOD, e.getMessage());
@@ -123,13 +125,20 @@ public class GlobalExceptionHandler {
      */
     @ResponseStatus(org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(IOException.class)
-    public void handleRuntimeException(IOException e, HttpServletRequest request) {
+    public void handleIoException(IOException e, HttpServletRequest request) {
         String requestURI = request.getRequestURI();
         if (requestURI.contains("sse")) {
             // sse 经常性连接中断 例如关闭浏览器 直接屏蔽
             return;
         }
         log.error("请求地址'{}',连接中断", requestURI, e);
+    }
+
+    /**
+     * sse 连接超时异常 不需要处理
+     */
+    @ExceptionHandler(AsyncRequestTimeoutException.class)
+    public void handleRuntimeException(AsyncRequestTimeoutException e) {
     }
 
     /**
@@ -200,6 +209,15 @@ public class GlobalExceptionHandler {
     public R<Void> handleHttpMessageNotReadableException(HttpMessageNotReadableException e, HttpServletRequest request) {
         log.error("请求地址'{}', 参数解析失败: {}", request.getRequestURI(), e.getMessage());
         return R.fail(HttpStatus.HTTP_BAD_REQUEST, "请求参数格式错误：" + e.getMostSpecificCause().getMessage());
+    }
+
+    /**
+     * SpEL 表达式相关异常
+     */
+    @ExceptionHandler(ExpressionException.class)
+    public R<Void> handleSpelException(ExpressionException e, HttpServletRequest request) {
+        log.error("请求地址'{}'，SpEL解析异常: {}", request.getRequestURI(), e.getMessage());
+        return R.fail(HttpStatus.HTTP_INTERNAL_ERROR, "SpEL解析失败：" + e.getMessage());
     }
 
 }

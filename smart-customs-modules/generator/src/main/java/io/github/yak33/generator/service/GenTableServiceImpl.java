@@ -11,6 +11,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.incrementer.IdentifierGenerator;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import io.github.yak33.common.mybatis.utils.IdGeneratorUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.anyline.metadata.Column;
@@ -51,7 +52,7 @@ import java.util.zip.ZipOutputStream;
 /**
  * 业务 服务层实现
  *
- * @author ZHANGCHAO
+ * @author Lion Li
  */
 @Slf4j
 @RequiredArgsConstructor
@@ -60,9 +61,8 @@ public class GenTableServiceImpl implements IGenTableService {
 
     private final GenTableMapper baseMapper;
     private final GenTableColumnMapper genTableColumnMapper;
-    private final IdentifierGenerator identifierGenerator;
 
-    private static final String[] TABLE_IGNORE = new String[] { "sj_", "flow_", "gen_" };
+    private static final String[] TABLE_IGNORE = new String[]{"sj_", "flow_", "gen_"};
 
     /**
      * 查询业务字段列表
@@ -322,7 +322,7 @@ public class GenTableServiceImpl implements IGenTableService {
         GenTable table = baseMapper.selectGenTableById(tableId);
         List<Long> menuIds = new ArrayList<>();
         for (int i = 0; i < 6; i++) {
-            menuIds.add(identifierGenerator.nextId(null).longValue());
+            menuIds.add(IdGeneratorUtil.nextLongId());
         }
         table.setMenuIds(menuIds);
         // 设置主键列信息
@@ -353,14 +353,8 @@ public class GenTableServiceImpl implements IGenTableService {
     public byte[] downloadCode(Long tableId) {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         ZipOutputStream zip = new ZipOutputStream(outputStream);
-        try {
-            generatorCode(tableId, zip);
-            zip.finish();
-        } catch (IOException e) {
-            log.error("生成代码失败", e);
-        } finally {
-            IoUtil.close(zip);
-        }
+        generatorCode(tableId, zip);
+        IoUtil.close(zip);
         return outputStream.toByteArray();
     }
 
@@ -428,8 +422,8 @@ public class GenTableServiceImpl implements IGenTableService {
                     column.setQueryType(prevColumn.getQueryType());
                 }
                 if (StringUtils.isNotEmpty(prevColumn.getIsRequired()) && !column.isPk()
-                        && (column.isInsert() || column.isEdit())
-                        && ((column.isUsableColumn()) || (!column.isSuperColumn()))) {
+                    && (column.isInsert() || column.isEdit())
+                    && ((column.isUsableColumn()) || (!column.isSuperColumn()))) {
                     // 如果是(新增/修改&非主键/非忽略及父属性)，继续保留必填/显示类型选项
                     column.setIsRequired(prevColumn.getIsRequired());
                     column.setHtmlType(prevColumn.getHtmlType());
@@ -459,16 +453,10 @@ public class GenTableServiceImpl implements IGenTableService {
     public byte[] downloadCode(String[] tableIds) {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         ZipOutputStream zip = new ZipOutputStream(outputStream);
-        try {
-            for (String tableId : tableIds) {
-                generatorCode(Long.parseLong(tableId), zip);
-            }
-            zip.finish();
-        } catch (IOException e) {
-            log.error("批量生成代码失败", e);
-        } finally {
-            IoUtil.close(zip);
+        for (String tableId : tableIds) {
+            generatorCode(Long.parseLong(tableId), zip);
         }
+        IoUtil.close(zip);
         return outputStream.toByteArray();
     }
 
@@ -480,7 +468,7 @@ public class GenTableServiceImpl implements IGenTableService {
         GenTable table = baseMapper.selectGenTableById(tableId);
         List<Long> menuIds = new ArrayList<>();
         for (int i = 0; i < 6; i++) {
-            menuIds.add(identifierGenerator.nextId(null).longValue());
+            menuIds.add(IdGeneratorUtil.nextLongId());
         }
         table.setMenuIds(menuIds);
         // 设置主键列信息

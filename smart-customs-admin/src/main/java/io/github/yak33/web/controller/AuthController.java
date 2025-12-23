@@ -48,6 +48,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -106,7 +107,7 @@ public class AuthController {
         Long userId = LoginHelper.getUserId();
         scheduledExecutorService.schedule(() -> {
             SseMessageDto dto = new SseMessageDto();
-            dto.setMessage("欢迎登录👉智慧关务平台");
+            dto.setMessage(DateUtils.getTodayHour(new Date()) + "好，欢迎登录👉智慧关务平台");
             dto.setUserIds(List.of(userId));
             SseMessageUtils.publishMessage(dto);
         }, 5, TimeUnit.SECONDS);

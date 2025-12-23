@@ -1,46 +1,45 @@
 #set($ModuleName=$moduleName.substring(0, 1).toUpperCase() + $moduleName.substring(1))
 <script setup lang="ts">
-import { ref } from 'vue';
+import { toRaw } from 'vue';
+import { jsonClone } from '@sa/utils';
 import { useNaiveForm } from '@/hooks/common/form';
 import { $t } from '@/locales';
-#if($dictList && $dictList.size() > 0)import { useDict } from '@/hooks/business/dict';#end
 
 defineOptions({
   name: '${BusinessName}Search'
 });
 
 interface Emits {
-  (e: 'reset'): void;
   (e: 'search'): void;
 }
 
 const emit = defineEmits<Emits>();
 
-const { formRef, validate, restoreValidation } = useNaiveForm();
+const { validate, restoreValidation } = useNaiveForm();
 
 #foreach ($column in $columns)
     #if($column.htmlType == "datetime" && $column.queryType == "BETWEEN")
         #set($AttrName=$column.javaField.substring(0,1).toUpperCase() + ${column.javaField.substring(1)})
 const dateRange${AttrName} = ref<[string, string] | null>(null);
 #end#end
-
 const model = defineModel<Api.$ModuleName.${BusinessName}SearchParams>('model', { required: true });
 
-#if($dictList && $dictList.size() > 0)
-#foreach($dict in $dictList)
-const { options: ${dict.name}Options } = useDict('${dict.type}'#if($dict.immediate), false#end);
-#end#end
+const defaultModel = jsonClone(toRaw(model.value));
 
-async function reset() {
-#foreach ($column in $columns)
+function resetModel() {
+  #foreach ($column in $columns)
     #if($column.htmlType == "datetime" && $column.queryType == "BETWEEN")
         #set($AttrName=$column.javaField.substring(0,1).toUpperCase() + ${column.javaField.substring(1)})
   dateRange${AttrName}.value = null;
     #end
 #end
-  Object.assign(model.value.params!, {});
+  Object.assign(model.value, defaultModel);
+}
+
+async function reset() {
   await restoreValidation();
-  emit('reset');
+  resetModel();
+  emit('search');
 }
 
 async function search() {
@@ -61,26 +60,23 @@ async function search() {
 <template>
   <NCard :bordered="false" size="small" class="card-wrapper">
     <NCollapse>
-      <NCollapseItem :title="$t('common.search')" name="user-search">
-        <NForm ref="formRef" :model="model" label-placement="left" :label-width="80">
+      <NCollapseItem :title="$t('common.search')" name="$moduleName-${business__name}-search">
+        <NForm :model="model" label-placement="left" :label-width="80">
           <NGrid responsive="screen" item-responsive>
+#set($immediateDictList = [])
 #foreach($column in $columns)
 #if($column.query)
-#set($dictType=$!StrUtil.toCamelCase($column.dictType))
 #set($AttrName=$column.javaField.substring(0,1).toUpperCase() + ${column.javaField.substring(1)})
-#set($parentheseIndex=$column.columnComment.indexOf("（"))
-#if($parentheseIndex != -1)
-#set($comment=$column.columnComment.substring(0, $parentheseIndex))
-#else
-#set($comment=$column.columnComment)
-#end
-            <NFormItemGi span="24 s:12 m:6" label="$column.columnComment" path="$column.javaField" class="pr-24px">
-            #if($!StrUtil.contains("select, radio, checkbox", $column.htmlType) && $dictType && "" != $dictType)
-              <NSelect
+            <NFormItemGi span="24 s:12 m:6" label="$column.columnComment" label-width="auto" path="$column.javaField" class="pr-24px">
+            #if($!StrUtil.contains("select, radio, checkbox", $column.htmlType) && $column.dictType)
+              <DictSelect
                 v-model:value="model.$column.javaField"
                 placeholder="请选择$column.columnComment"
-                :options="${dictType}Options"
+                dict-code="$column.dictType"
                 clearable
+#if(!$column.isList() && !$immediateDictList.contains($column.dictType))#set($void = $immediateDictList.add($column.dictType))
+                immediate
+#end
               />
             #elseif($!StrUtil.contains("select, radio, checkbox", $column.htmlType))
               <NSelect
@@ -103,12 +99,12 @@ async function search() {
                 value-format="yyyy-MM-dd HH:mm:ss"
                 clearable
               />
-#else              <NInput v-model:value="model.$column.javaField" placeholder="请输入$column.columnComment" @keyup.enter="search" />
+#else              <NInput v-model:value="model.$column.javaField" placeholder="请输入$column.columnComment" />
     #end
             </NFormItemGi>
   #end
 #end
-            <NFormItemGi span="24" class="pr-24px">
+            <NFormItemGi :show-feedback="false" span="24" class="pr-24px">
               <NSpace class="w-full" justify="end">
                 <NButton @click="reset">
                   <template #icon>

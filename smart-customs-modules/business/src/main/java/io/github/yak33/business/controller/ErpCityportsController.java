@@ -31,7 +31,7 @@ import io.github.yak33.common.mybatis.core.page.TableDataInfo;
 @Validated
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/business/cityports")
+@RequestMapping("/trade-compliance-library/cityports")
 public class ErpCityportsController extends BaseController {
 
     private final IErpCityportsService erpCityportsService;
@@ -39,7 +39,7 @@ public class ErpCityportsController extends BaseController {
     /**
      * 查询港口列表
      */
-    @SaCheckPermission("business:cityports:list")
+    @SaCheckPermission("tradeComplianceLibrary:cityports:list")
     @GetMapping("/list")
     public TableDataInfo<ErpCityportsVo> list(ErpCityportsBo bo, PageQuery pageQuery) {
         return erpCityportsService.queryPageList(bo, pageQuery);
@@ -48,7 +48,7 @@ public class ErpCityportsController extends BaseController {
     /**
      * 导出港口列表
      */
-    @SaCheckPermission("business:cityports:export")
+    @SaCheckPermission("tradeComplianceLibrary:cityports:export")
     @Log(title = "港口", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(ErpCityportsBo bo, HttpServletResponse response) {
@@ -61,7 +61,7 @@ public class ErpCityportsController extends BaseController {
      *
      * @param id 主键
      */
-    @SaCheckPermission("business:cityports:query")
+    @SaCheckPermission("tradeComplianceLibrary:cityports:query")
     @GetMapping("/{id}")
     public R<ErpCityportsVo> getInfo(@NotNull(message = "主键不能为空")
                                      @PathVariable String id) {
@@ -71,7 +71,7 @@ public class ErpCityportsController extends BaseController {
     /**
      * 新增港口
      */
-    @SaCheckPermission("business:cityports:add")
+    @SaCheckPermission("tradeComplianceLibrary:cityports:add")
     @Log(title = "港口", businessType = BusinessType.INSERT)
     @RepeatSubmit()
     @PostMapping()
@@ -82,7 +82,7 @@ public class ErpCityportsController extends BaseController {
     /**
      * 修改港口
      */
-    @SaCheckPermission("business:cityports:edit")
+    @SaCheckPermission("tradeComplianceLibrary:cityports:edit")
     @Log(title = "港口", businessType = BusinessType.UPDATE)
     @RepeatSubmit()
     @PutMapping()
@@ -95,7 +95,7 @@ public class ErpCityportsController extends BaseController {
      *
      * @param ids 主键串
      */
-    @SaCheckPermission("business:cityports:remove")
+    @SaCheckPermission("tradeComplianceLibrary:cityports:remove")
     @Log(title = "港口", businessType = BusinessType.DELETE)
     @DeleteMapping("/{ids}")
     public R<Void> remove(@NotEmpty(message = "主键不能为空")

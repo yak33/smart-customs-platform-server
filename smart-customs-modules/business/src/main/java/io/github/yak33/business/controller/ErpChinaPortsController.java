@@ -31,7 +31,7 @@ import io.github.yak33.common.mybatis.core.page.TableDataInfo;
 @Validated
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/business/chinaPorts")
+@RequestMapping("/trade-compliance-library/chinaPorts")
 public class ErpChinaPortsController extends BaseController {
 
     private final IErpChinaPortsService erpChinaPortsService;
@@ -39,7 +39,7 @@ public class ErpChinaPortsController extends BaseController {
     /**
      * 查询口岸信息列表
      */
-    @SaCheckPermission("business:chinaPorts:list")
+    @SaCheckPermission("tradeComplianceLibrary:chinaPorts:list")
     @GetMapping("/list")
     public TableDataInfo<ErpChinaPortsVo> list(ErpChinaPortsBo bo, PageQuery pageQuery) {
         return erpChinaPortsService.queryPageList(bo, pageQuery);
@@ -48,7 +48,7 @@ public class ErpChinaPortsController extends BaseController {
     /**
      * 导出口岸信息列表
      */
-    @SaCheckPermission("business:chinaPorts:export")
+    @SaCheckPermission("tradeComplianceLibrary:chinaPorts:export")
     @Log(title = "口岸信息", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(ErpChinaPortsBo bo, HttpServletResponse response) {
@@ -61,7 +61,7 @@ public class ErpChinaPortsController extends BaseController {
      *
      * @param id 主键
      */
-    @SaCheckPermission("business:chinaPorts:query")
+    @SaCheckPermission("tradeComplianceLibrary:chinaPorts:query")
     @GetMapping("/{id}")
     public R<ErpChinaPortsVo> getInfo(@NotNull(message = "主键不能为空")
                                      @PathVariable String id) {
@@ -71,7 +71,7 @@ public class ErpChinaPortsController extends BaseController {
     /**
      * 新增口岸信息
      */
-    @SaCheckPermission("business:chinaPorts:add")
+    @SaCheckPermission("tradeComplianceLibrary:chinaPorts:add")
     @Log(title = "口岸信息", businessType = BusinessType.INSERT)
     @RepeatSubmit()
     @PostMapping()
@@ -82,7 +82,7 @@ public class ErpChinaPortsController extends BaseController {
     /**
      * 修改口岸信息
      */
-    @SaCheckPermission("business:chinaPorts:edit")
+    @SaCheckPermission("tradeComplianceLibrary:chinaPorts:edit")
     @Log(title = "口岸信息", businessType = BusinessType.UPDATE)
     @RepeatSubmit()
     @PutMapping()
@@ -95,7 +95,7 @@ public class ErpChinaPortsController extends BaseController {
      *
      * @param ids 主键串
      */
-    @SaCheckPermission("business:chinaPorts:remove")
+    @SaCheckPermission("tradeComplianceLibrary:chinaPorts:remove")
     @Log(title = "口岸信息", businessType = BusinessType.DELETE)
     @DeleteMapping("/{ids}")
     public R<Void> remove(@NotEmpty(message = "主键不能为空")

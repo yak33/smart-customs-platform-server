@@ -31,7 +31,6 @@ public class ErpChinaPortsVo implements Serializable {
     /**
      * ID
      */
-    @ExcelProperty(value = "ID")
     private String id;
 
     /**

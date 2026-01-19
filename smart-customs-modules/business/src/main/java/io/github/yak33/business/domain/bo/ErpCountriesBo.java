@@ -13,7 +13,7 @@ import jakarta.validation.constraints.*;
  * 国家业务对象 erp_countries
  *
  * @author ZHANGCHAO
- * @date 2025-06-29
+ * @date 2026-01-19
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
@@ -40,18 +40,24 @@ public class ErpCountriesBo extends BaseEntity {
     /**
      * 国家英文名称
      */
+    @NotBlank(message = "国家英文名称不能为空", groups = { AddGroup.class, EditGroup.class })
     private String enname;
 
     /**
      * 是否启用
      */
-    @NotNull(message = "是否启用不能为空", groups = { EditGroup.class })
     private Boolean isenabled;
 
     /**
      * 主键
      */
+    @NotBlank(message = "主键不能为空", groups = { EditGroup.class })
     private String id;
+
+    /**
+     * 预警级别（1低 2中 3高）
+     */
+    private String warnLevel;
 
 
 }

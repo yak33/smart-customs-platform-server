@@ -11,7 +11,7 @@ import java.io.Serial;
  * 国家对象 erp_countries
  *
  * @author ZHANGCHAO
- * @date 2025-06-29
+ * @date 2026-01-19
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
@@ -20,6 +20,12 @@ public class ErpCountries extends TenantEntity {
 
     @Serial
     private static final long serialVersionUID = 1L;
+
+    /**
+     * 主键
+     */
+    @TableId(value = "ID")
+    private String id;
 
     /**
      * 国家编码
@@ -51,12 +57,6 @@ public class ErpCountries extends TenantEntity {
      */
     @TableLogic
     private Integer delFlag;
-
-    /**
-     * 主键
-     */
-    @TableId(value = "ID")
-    private String id;
 
     /**
      * 预警级别（1低 2中 3高）

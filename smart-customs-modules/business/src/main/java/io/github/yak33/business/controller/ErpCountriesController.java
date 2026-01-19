@@ -26,12 +26,12 @@ import io.github.yak33.common.mybatis.core.page.TableDataInfo;
  * 国家
  *
  * @author ZHANGCHAO
- * @date 2025-06-29
+ * @date 2026-01-19
  */
 @Validated
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/business/countries")
+@RequestMapping("/trade-compliance-library/countries")
 public class ErpCountriesController extends BaseController {
 
     private final IErpCountriesService erpCountriesService;
@@ -39,7 +39,7 @@ public class ErpCountriesController extends BaseController {
     /**
      * 查询国家列表
      */
-    @SaCheckPermission("business:countries:list")
+    @SaCheckPermission("tradeComplianceLibrary:countries:list")
     @GetMapping("/list")
     public TableDataInfo<ErpCountriesVo> list(ErpCountriesBo bo, PageQuery pageQuery) {
         return erpCountriesService.queryPageList(bo, pageQuery);
@@ -48,7 +48,7 @@ public class ErpCountriesController extends BaseController {
     /**
      * 导出国家列表
      */
-    @SaCheckPermission("business:countries:export")
+    @SaCheckPermission("tradeComplianceLibrary:countries:export")
     @Log(title = "国家", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(ErpCountriesBo bo, HttpServletResponse response) {
@@ -61,7 +61,7 @@ public class ErpCountriesController extends BaseController {
      *
      * @param id 主键
      */
-    @SaCheckPermission("business:countries:query")
+    @SaCheckPermission("tradeComplianceLibrary:countries:query")
     @GetMapping("/{id}")
     public R<ErpCountriesVo> getInfo(@NotNull(message = "主键不能为空")
                                      @PathVariable String id) {
@@ -71,7 +71,7 @@ public class ErpCountriesController extends BaseController {
     /**
      * 新增国家
      */
-    @SaCheckPermission("business:countries:add")
+    @SaCheckPermission("tradeComplianceLibrary:countries:add")
     @Log(title = "国家", businessType = BusinessType.INSERT)
     @RepeatSubmit()
     @PostMapping()
@@ -82,7 +82,7 @@ public class ErpCountriesController extends BaseController {
     /**
      * 修改国家
      */
-    @SaCheckPermission("business:countries:edit")
+    @SaCheckPermission("tradeComplianceLibrary:countries:edit")
     @Log(title = "国家", businessType = BusinessType.UPDATE)
     @RepeatSubmit()
     @PutMapping()
@@ -95,7 +95,7 @@ public class ErpCountriesController extends BaseController {
      *
      * @param ids 主键串
      */
-    @SaCheckPermission("business:countries:remove")
+    @SaCheckPermission("tradeComplianceLibrary:countries:remove")
     @Log(title = "国家", businessType = BusinessType.DELETE)
     @DeleteMapping("/{ids}")
     public R<Void> remove(@NotEmpty(message = "主键不能为空")

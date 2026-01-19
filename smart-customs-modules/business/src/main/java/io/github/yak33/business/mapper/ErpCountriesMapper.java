@@ -8,7 +8,7 @@ import io.github.yak33.common.mybatis.core.mapper.BaseMapperPlus;
  * 国家Mapper接口
  *
  * @author ZHANGCHAO
- * @date 2025-06-29
+ * @date 2026-01-19
  */
 public interface ErpCountriesMapper extends BaseMapperPlus<ErpCountries, ErpCountriesVo> {
 

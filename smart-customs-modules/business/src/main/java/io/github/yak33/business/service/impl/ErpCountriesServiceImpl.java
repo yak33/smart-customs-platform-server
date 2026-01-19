@@ -1,12 +1,12 @@
 package io.github.yak33.business.service.impl;
 
 import io.github.yak33.common.core.utils.MapstructUtils;
-import io.github.yak33.common.core.utils.StringUtils;
 import io.github.yak33.common.mybatis.core.page.TableDataInfo;
 import io.github.yak33.common.mybatis.core.page.PageQuery;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import cn.hutool.core.util.ObjectUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -15,16 +15,19 @@ import io.github.yak33.business.domain.vo.ErpCountriesVo;
 import io.github.yak33.business.domain.ErpCountries;
 import io.github.yak33.business.mapper.ErpCountriesMapper;
 import io.github.yak33.business.service.IErpCountriesService;
+import io.github.yak33.common.core.exception.ServiceException;
 
 import java.util.List;
 import java.util.Map;
 import java.util.Collection;
 
+import static cn.hutool.core.text.CharSequenceUtil.isNotBlank;
+
 /**
  * 国家Service业务层处理
  *
  * @author ZHANGCHAO
- * @date 2025-06-29
+ * @date 2026-01-19
  */
 @Slf4j
 @RequiredArgsConstructor
@@ -73,11 +76,13 @@ public class ErpCountriesServiceImpl implements IErpCountriesService {
     private LambdaQueryWrapper<ErpCountries> buildQueryWrapper(ErpCountriesBo bo) {
         Map<String, Object> params = bo.getParams();
         LambdaQueryWrapper<ErpCountries> lqw = Wrappers.lambdaQuery();
-        lqw.like(StringUtils.isNotBlank(bo.getCode()), ErpCountries::getCode, bo.getCode());
-        lqw.like(StringUtils.isNotBlank(bo.getName()), ErpCountries::getName, bo.getName());
-        lqw.like(StringUtils.isNotBlank(bo.getStandardCode()), ErpCountries::getStandardCode, bo.getStandardCode());
-        lqw.like(StringUtils.isNotBlank(bo.getEnname()), ErpCountries::getEnname, bo.getEnname());
-        lqw.orderByDesc(ErpCountries::getCreateTime);
+        lqw.eq(isNotBlank(bo.getCode()), ErpCountries::getCode, bo.getCode());
+        lqw.like(isNotBlank(bo.getName()), ErpCountries::getName, bo.getName());
+        lqw.like(isNotBlank(bo.getStandardCode()), ErpCountries::getStandardCode, bo.getStandardCode());
+        lqw.like(isNotBlank(bo.getEnname()), ErpCountries::getEnname, bo.getEnname());
+        lqw.eq(bo.getIsenabled() != null, ErpCountries::getIsenabled, bo.getIsenabled());
+        lqw.orderByAsc(ErpCountries::getId);
+        lqw.eq(isNotBlank(bo.getWarnLevel()), ErpCountries::getWarnLevel, bo.getWarnLevel());
         return lqw;
     }
 
@@ -115,7 +120,36 @@ public class ErpCountriesServiceImpl implements IErpCountriesService {
      * 保存前的数据校验
      */
     private void validEntityBeforeSave(ErpCountries entity){
-        //TODO 做一些数据校验,如唯一约束
+        if (isNotBlank(entity.getCode()) && !checkCodeUnique(entity)) {
+            throw new ServiceException("国家编码已存在!");
+        }
+        if (isNotBlank(entity.getName()) && !checkNameUnique(entity)) {
+            throw new ServiceException("国家名称已存在!");
+        }
+        if (isNotBlank(entity.getEnname()) && !checkEnnameUnique(entity)) {
+            throw new ServiceException("国家英文名称已存在!");
+        }
+    }
+
+    private boolean checkCodeUnique(ErpCountries entity) {
+        boolean exist = baseMapper.exists(new LambdaQueryWrapper<ErpCountries>()
+            .eq(ErpCountries::getCode, entity.getCode())
+            .ne(ObjectUtil.isNotNull(entity.getId()), ErpCountries::getId, entity.getId()));
+        return !exist;
+    }
+
+    private boolean checkNameUnique(ErpCountries entity) {
+        boolean exist = baseMapper.exists(new LambdaQueryWrapper<ErpCountries>()
+            .eq(ErpCountries::getName, entity.getName())
+            .ne(ObjectUtil.isNotNull(entity.getId()), ErpCountries::getId, entity.getId()));
+        return !exist;
+    }
+
+    private boolean checkEnnameUnique(ErpCountries entity) {
+        boolean exist = baseMapper.exists(new LambdaQueryWrapper<ErpCountries>()
+            .eq(ErpCountries::getEnname, entity.getEnname())
+            .ne(ObjectUtil.isNotNull(entity.getId()), ErpCountries::getId, entity.getId()));
+        return !exist;
     }
 
     /**

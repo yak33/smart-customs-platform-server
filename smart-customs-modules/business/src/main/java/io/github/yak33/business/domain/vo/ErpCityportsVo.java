@@ -29,7 +29,6 @@ public class ErpCityportsVo implements Serializable {
     /**
      * 主键
      */
-    @ExcelProperty(value = "主键")
     private String id;
 
     /**

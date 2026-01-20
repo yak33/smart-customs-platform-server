@@ -8,7 +8,7 @@ import io.github.yak33.common.mybatis.core.mapper.BaseMapperPlus;
  * 币制Mapper接口
  *
  * @author ZHANGCHAO
- * @date 2025-06-28
+ * @date 2026-01-19
  */
 public interface ErpCurrenciesMapper extends BaseMapperPlus<ErpCurrencies, ErpCurrenciesVo> {
 

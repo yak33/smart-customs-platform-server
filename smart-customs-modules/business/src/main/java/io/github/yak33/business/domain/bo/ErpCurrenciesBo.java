@@ -1,19 +1,19 @@
 package io.github.yak33.business.domain.bo;
 
-import io.github.linpeilie.annotations.AutoMapper;
-import jakarta.validation.constraints.NotBlank;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 import io.github.yak33.business.domain.ErpCurrencies;
+import io.github.yak33.common.mybatis.core.domain.BaseEntity;
 import io.github.yak33.common.core.validate.AddGroup;
 import io.github.yak33.common.core.validate.EditGroup;
-import io.github.yak33.common.mybatis.core.domain.BaseEntity;
+import io.github.linpeilie.annotations.AutoMapper;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import jakarta.validation.constraints.*;
 
 /**
  * 币制业务对象 erp_currencies
  *
  * @author ZHANGCHAO
- * @date 2025-06-28
+ * @date 2026-01-19
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
@@ -23,24 +23,25 @@ public class ErpCurrenciesBo extends BaseEntity {
     /**
      * 主键
      */
+    @NotBlank(message = "主键不能为空", groups = { EditGroup.class })
     private String id;
 
     /**
      * 编码 110等
      */
-    @NotBlank(message = "币制编码不能为空", groups = {AddGroup.class, EditGroup.class})
+    @NotBlank(message = "币种编码不能为空", groups = { AddGroup.class, EditGroup.class })
     private String code;
 
     /**
      * 开证币种 USD/CYN等
      */
-    @NotBlank(message = "币制不能为空", groups = {AddGroup.class, EditGroup.class})
+    @NotBlank(message = "开证币种不能为空", groups = { AddGroup.class, EditGroup.class })
     private String currency;
 
     /**
      * 币种名称
      */
-    @NotBlank(message = "币制名称不能为空", groups = {AddGroup.class, EditGroup.class})
+    @NotBlank(message = "币种名称不能为空", groups = { AddGroup.class, EditGroup.class })
     private String name;
 
     /**

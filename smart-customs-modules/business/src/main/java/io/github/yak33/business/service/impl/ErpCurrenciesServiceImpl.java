@@ -1,7 +1,6 @@
 package io.github.yak33.business.service.impl;
 
 import io.github.yak33.common.core.utils.MapstructUtils;
-import io.github.yak33.common.core.utils.StringUtils;
 import io.github.yak33.common.mybatis.core.page.TableDataInfo;
 import io.github.yak33.common.mybatis.core.page.PageQuery;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -20,11 +19,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Collection;
 
+import static cn.hutool.core.text.CharSequenceUtil.isNotBlank;
+
 /**
  * 币制Service业务层处理
  *
  * @author ZHANGCHAO
- * @date 2025-06-28
+ * @date 2026-01-19
  */
 @Slf4j
 @RequiredArgsConstructor
@@ -71,14 +72,15 @@ public class ErpCurrenciesServiceImpl implements IErpCurrenciesService {
     }
 
     private LambdaQueryWrapper<ErpCurrencies> buildQueryWrapper(ErpCurrenciesBo bo) {
+        Map<String, Object> params = bo.getParams();
         LambdaQueryWrapper<ErpCurrencies> lqw = Wrappers.lambdaQuery();
-        lqw.orderByDesc(ErpCurrencies::getCreateTime);
-        lqw.like(StringUtils.isNotBlank(bo.getCode()), ErpCurrencies::getCode, bo.getCode());
-        lqw.like(StringUtils.isNotBlank(bo.getCurrency()), ErpCurrencies::getCurrency, bo.getCurrency());
-        lqw.like(StringUtils.isNotBlank(bo.getName()), ErpCurrencies::getName, bo.getName());
-        lqw.like(StringUtils.isNotBlank(bo.getEnname()), ErpCurrencies::getEnname, bo.getEnname());
+        lqw.orderByAsc(ErpCurrencies::getId);
+        lqw.eq(isNotBlank(bo.getCode()), ErpCurrencies::getCode, bo.getCode());
+        lqw.eq(isNotBlank(bo.getCurrency()), ErpCurrencies::getCurrency, bo.getCurrency());
+        lqw.like(isNotBlank(bo.getName()), ErpCurrencies::getName, bo.getName());
+        lqw.like(isNotBlank(bo.getEnname()), ErpCurrencies::getEnname, bo.getEnname());
         lqw.eq(bo.getCurrencyOrder() != null, ErpCurrencies::getCurrencyOrder, bo.getCurrencyOrder());
-        lqw.eq(StringUtils.isNotBlank(bo.getRate()), ErpCurrencies::getRate, bo.getRate());
+        lqw.eq(isNotBlank(bo.getRate()), ErpCurrencies::getRate, bo.getRate());
         lqw.eq(bo.getThresholdLow() != null, ErpCurrencies::getThresholdLow, bo.getThresholdLow());
         lqw.eq(bo.getThresholdHigh() != null, ErpCurrencies::getThresholdHigh, bo.getThresholdHigh());
         return lqw;

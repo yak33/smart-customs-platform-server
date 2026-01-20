@@ -11,7 +11,7 @@ import java.io.Serial;
  * 币制对象 erp_currencies
  *
  * @author ZHANGCHAO
- * @date 2025-06-28
+ * @date 2026-01-19
  */
 @Data
 @EqualsAndHashCode(callSuper = true)

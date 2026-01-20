@@ -26,12 +26,12 @@ import io.github.yak33.common.mybatis.core.page.TableDataInfo;
  * 币制
  *
  * @author ZHANGCHAO
- * @date 2025-06-28
+ * @date 2026-01-19
  */
 @Validated
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/business/currencies")
+@RequestMapping("/trade-compliance-library/currencies")
 public class ErpCurrenciesController extends BaseController {
 
     private final IErpCurrenciesService erpCurrenciesService;
@@ -39,7 +39,7 @@ public class ErpCurrenciesController extends BaseController {
     /**
      * 查询币制列表
      */
-    @SaCheckPermission("business:currencies:list")
+    @SaCheckPermission("tradeComplianceLibrary:currencies:list")
     @GetMapping("/list")
     public TableDataInfo<ErpCurrenciesVo> list(ErpCurrenciesBo bo, PageQuery pageQuery) {
         return erpCurrenciesService.queryPageList(bo, pageQuery);
@@ -48,7 +48,7 @@ public class ErpCurrenciesController extends BaseController {
     /**
      * 导出币制列表
      */
-    @SaCheckPermission("business:currencies:export")
+    @SaCheckPermission("tradeComplianceLibrary:currencies:export")
     @Log(title = "币制", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(ErpCurrenciesBo bo, HttpServletResponse response) {
@@ -61,7 +61,7 @@ public class ErpCurrenciesController extends BaseController {
      *
      * @param id 主键
      */
-    @SaCheckPermission("business:currencies:query")
+    @SaCheckPermission("tradeComplianceLibrary:currencies:query")
     @GetMapping("/{id}")
     public R<ErpCurrenciesVo> getInfo(@NotNull(message = "主键不能为空")
                                      @PathVariable String id) {
@@ -71,7 +71,7 @@ public class ErpCurrenciesController extends BaseController {
     /**
      * 新增币制
      */
-    @SaCheckPermission("business:currencies:add")
+    @SaCheckPermission("tradeComplianceLibrary:currencies:add")
     @Log(title = "币制", businessType = BusinessType.INSERT)
     @RepeatSubmit()
     @PostMapping()
@@ -82,7 +82,7 @@ public class ErpCurrenciesController extends BaseController {
     /**
      * 修改币制
      */
-    @SaCheckPermission("business:currencies:edit")
+    @SaCheckPermission("tradeComplianceLibrary:currencies:edit")
     @Log(title = "币制", businessType = BusinessType.UPDATE)
     @RepeatSubmit()
     @PutMapping()
@@ -95,7 +95,7 @@ public class ErpCurrenciesController extends BaseController {
      *
      * @param ids 主键串
      */
-    @SaCheckPermission("business:currencies:remove")
+    @SaCheckPermission("tradeComplianceLibrary:currencies:remove")
     @Log(title = "币制", businessType = BusinessType.DELETE)
     @DeleteMapping("/{ids}")
     public R<Void> remove(@NotEmpty(message = "主键不能为空")

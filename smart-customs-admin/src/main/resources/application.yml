@@ -93,6 +93,11 @@ spring:
     deserialization:
       # 允许对象忽略json中不存在的属性
       fail_on_unknown_properties: false
+  boot:
+    admin:
+      client:
+        username: admin
+        password: Admin@2026
 
 # Sa-Token配置
 sa-token:

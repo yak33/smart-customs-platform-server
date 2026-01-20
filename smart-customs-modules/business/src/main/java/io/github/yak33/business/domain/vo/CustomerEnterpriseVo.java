@@ -13,10 +13,10 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * 企业海关备案信息库视图对象 customer_enterprise
+ * 企业海关备案信息视图对象 customer_enterprise
  *
  * @author ZHANGCHAO
- * @date 2025-10-19
+ * @date 2026-01-20
  */
 @Data
 @ExcelIgnoreUnannotated
@@ -30,7 +30,7 @@ public class CustomerEnterpriseVo implements Serializable {
      * 流水号
      */
     @ExcelProperty(value = "流水号")
-    private Long id;
+    private String id;
 
     /**
      * 企业名称
@@ -85,13 +85,6 @@ public class CustomerEnterpriseVo implements Serializable {
      */
     @ExcelProperty(value = "经营类别")
     private String manageType;
-
-    /**
-     * 0=收发货人 1=生产销售单位/消费使用单位 2=申报单位
-该参数，当选择 0 时，只返回备案类型是收发货人的，当选择 2 时，只选择备案类型是报关行的。选择 1 时，会返回所有的可用信息。
-     */
-    @ExcelProperty(value = "类型")
-    private String type;
 
 
 }

@@ -1,22 +1,23 @@
 package io.github.yak33.business.domain;
 
 import com.baomidou.mybatisplus.annotation.*;
+import io.github.yak33.common.mybatis.core.domain.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import java.io.Serial;
-import java.io.Serializable;
+import java.util.Date;
 
 /**
- * 企业海关备案信息库对象 customer_enterprise
+ * 企业海关备案信息对象 customer_enterprise
  *
  * @author ZHANGCHAO
- * @date 2025-10-19
+ * @date 2026-01-20
  */
 @Data
-@EqualsAndHashCode(callSuper = false)
+@EqualsAndHashCode(callSuper = true)
 @TableName("customer_enterprise")
-public class CustomerEnterprise implements Serializable {
+public class CustomerEnterprise extends BaseEntity {
 
     @Serial
     private static final long serialVersionUID = 1L;
@@ -25,7 +26,7 @@ public class CustomerEnterprise implements Serializable {
      * 流水号
      */
     @TableId(value = "ID")
-    private Long id;
+    private String id;
 
     /**
      * 企业名称
@@ -78,4 +79,18 @@ public class CustomerEnterprise implements Serializable {
      */
     private String type;
 
+    /**
+     * 创建部门 - 数据库表中不存在此字段，排除映射
+     */
+    @TableField(exist = false)
+    private Long createDept;
+
+    @TableField(exist = false)
+    private String createBy;
+    @TableField(exist = false)
+    private String updateBy;
+    @TableField(exist = false)
+    private Date createTime;
+    @TableField(exist = false)
+    private Date updateTime;
 }

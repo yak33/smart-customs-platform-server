@@ -23,56 +23,56 @@ import io.github.yak33.business.service.ICustomerEnterpriseService;
 import io.github.yak33.common.mybatis.core.page.TableDataInfo;
 
 /**
- * 企业海关备案信息库
+ * 企业海关备案信息
  *
  * @author ZHANGCHAO
- * @date 2025-10-19
+ * @date 2026-01-20
  */
 @Validated
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/business/customer-enterprise")
+@RequestMapping("/business/enterprise")
 public class CustomerEnterpriseController extends BaseController {
 
     private final ICustomerEnterpriseService customerEnterpriseService;
 
     /**
-     * 查询企业海关备案信息库列表
+     * 查询企业海关备案信息列表
      */
-    @SaCheckPermission("business:customerenterprise:list")
+    @SaCheckPermission("business:enterprise:list")
     @GetMapping("/list")
     public TableDataInfo<CustomerEnterpriseVo> list(CustomerEnterpriseBo bo, PageQuery pageQuery) {
         return customerEnterpriseService.queryPageList(bo, pageQuery);
     }
 
     /**
-     * 导出企业海关备案信息库列表
+     * 导出企业海关备案信息列表
      */
-    @SaCheckPermission("business:customer-enterprise:export")
-    @Log(title = "企业海关备案信息库", businessType = BusinessType.EXPORT)
+    @SaCheckPermission("business:enterprise:export")
+    @Log(title = "企业海关备案信息", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(CustomerEnterpriseBo bo, HttpServletResponse response) {
         List<CustomerEnterpriseVo> list = customerEnterpriseService.queryList(bo);
-        ExcelUtil.exportExcel(list, "企业海关备案信息库", CustomerEnterpriseVo.class, response);
+        ExcelUtil.exportExcel(list, "企业海关备案信息", CustomerEnterpriseVo.class, response);
     }
 
     /**
-     * 获取企业海关备案信息库详细信息
+     * 获取企业海关备案信息详细信息
      *
      * @param id 主键
      */
-    @SaCheckPermission("business:customer-enterprise:query")
+    @SaCheckPermission("business:enterprise:query")
     @GetMapping("/{id}")
-    public R<CustomerEnterpriseVo> getInfo(@NotNull(message = "主键不能为空")
-                                     @PathVariable Long id) {
+    public R<CustomerEnterpriseVo> getInfo(@NotNull(message = "ID不能为空")
+                                     @PathVariable String id) {
         return R.ok(customerEnterpriseService.queryById(id));
     }
 
     /**
-     * 新增企业海关备案信息库
+     * 新增企业海关备案信息
      */
-    @SaCheckPermission("business:customer-enterprise:add")
-    @Log(title = "企业海关备案信息库", businessType = BusinessType.INSERT)
+    @SaCheckPermission("business:enterprise:add")
+    @Log(title = "企业海关备案信息", businessType = BusinessType.INSERT)
     @RepeatSubmit()
     @PostMapping()
     public R<Void> add(@Validated(AddGroup.class) @RequestBody CustomerEnterpriseBo bo) {
@@ -80,10 +80,10 @@ public class CustomerEnterpriseController extends BaseController {
     }
 
     /**
-     * 修改企业海关备案信息库
+     * 修改企业海关备案信息
      */
-    @SaCheckPermission("business:customer-enterprise:edit")
-    @Log(title = "企业海关备案信息库", businessType = BusinessType.UPDATE)
+    @SaCheckPermission("business:enterprise:edit")
+    @Log(title = "企业海关备案信息", businessType = BusinessType.UPDATE)
     @RepeatSubmit()
     @PutMapping()
     public R<Void> edit(@Validated(EditGroup.class) @RequestBody CustomerEnterpriseBo bo) {
@@ -91,15 +91,15 @@ public class CustomerEnterpriseController extends BaseController {
     }
 
     /**
-     * 删除企业海关备案信息库
+     * 删除企业海关备案信息
      *
      * @param ids 主键串
      */
-    @SaCheckPermission("business:customer-enterprise:remove")
-    @Log(title = "企业海关备案信息库", businessType = BusinessType.DELETE)
+    @SaCheckPermission("business:enterprise:remove")
+    @Log(title = "企业海关备案信息", businessType = BusinessType.DELETE)
     @DeleteMapping("/{ids}")
-    public R<Void> remove(@NotEmpty(message = "主键不能为空")
-                          @PathVariable Long[] ids) {
+    public R<Void> remove(@NotEmpty(message = "ID不能为空")
+                          @PathVariable String[] ids) {
         return toAjax(customerEnterpriseService.deleteWithValidByIds(List.of(ids), true));
     }
 }

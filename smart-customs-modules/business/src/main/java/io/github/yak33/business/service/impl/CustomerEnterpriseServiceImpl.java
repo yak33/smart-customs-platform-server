@@ -22,10 +22,10 @@ import java.util.Collection;
 import static cn.hutool.core.text.CharSequenceUtil.isNotBlank;
 
 /**
- * 企业海关备案信息库Service业务层处理
+ * 企业海关备案信息Service业务层处理
  *
  * @author ZHANGCHAO
- * @date 2025-10-19
+ * @date 2026-01-20
  */
 @Slf4j
 @RequiredArgsConstructor
@@ -35,22 +35,22 @@ public class CustomerEnterpriseServiceImpl implements ICustomerEnterpriseService
     private final CustomerEnterpriseMapper baseMapper;
 
     /**
-     * 查询企业海关备案信息库
+     * 查询企业海关备案信息
      *
      * @param id 主键
-     * @return 企业海关备案信息库
+     * @return 企业海关备案信息
      */
     @Override
-    public CustomerEnterpriseVo queryById(Long id){
+    public CustomerEnterpriseVo queryById(String id){
         return baseMapper.selectVoById(id);
     }
 
     /**
-     * 分页查询企业海关备案信息库列表
+     * 分页查询企业海关备案信息列表
      *
      * @param bo        查询条件
      * @param pageQuery 分页参数
-     * @return 企业海关备案信息库分页列表
+     * @return 企业海关备案信息分页列表
      */
     @Override
     public TableDataInfo<CustomerEnterpriseVo> queryPageList(CustomerEnterpriseBo bo, PageQuery pageQuery) {
@@ -60,10 +60,10 @@ public class CustomerEnterpriseServiceImpl implements ICustomerEnterpriseService
     }
 
     /**
-     * 查询符合条件的企业海关备案信息库列表
+     * 查询符合条件的企业海关备案信息列表
      *
      * @param bo 查询条件
-     * @return 企业海关备案信息库列表
+     * @return 企业海关备案信息列表
      */
     @Override
     public List<CustomerEnterpriseVo> queryList(CustomerEnterpriseBo bo) {
@@ -84,14 +84,13 @@ public class CustomerEnterpriseServiceImpl implements ICustomerEnterpriseService
         lqw.eq(isNotBlank(bo.getTrrmOfValidity()), CustomerEnterprise::getTrrmOfValidity, bo.getTrrmOfValidity());
         lqw.eq(isNotBlank(bo.getCancellation()), CustomerEnterprise::getCancellation, bo.getCancellation());
         lqw.eq(isNotBlank(bo.getManageType()), CustomerEnterprise::getManageType, bo.getManageType());
-        lqw.eq(isNotBlank(bo.getType()), CustomerEnterprise::getType, bo.getType());
         return lqw;
     }
 
     /**
-     * 新增企业海关备案信息库
+     * 新增企业海关备案信息
      *
-     * @param bo 企业海关备案信息库
+     * @param bo 企业海关备案信息
      * @return 是否新增成功
      */
     @Override
@@ -106,9 +105,9 @@ public class CustomerEnterpriseServiceImpl implements ICustomerEnterpriseService
     }
 
     /**
-     * 修改企业海关备案信息库
+     * 修改企业海关备案信息
      *
-     * @param bo 企业海关备案信息库
+     * @param bo 企业海关备案信息
      * @return 是否修改成功
      */
     @Override
@@ -126,14 +125,14 @@ public class CustomerEnterpriseServiceImpl implements ICustomerEnterpriseService
     }
 
     /**
-     * 校验并批量删除企业海关备案信息库信息
+     * 校验并批量删除企业海关备案信息信息
      *
      * @param ids     待删除的主键集合
      * @param isValid 是否进行有效性校验
      * @return 是否删除成功
      */
     @Override
-    public Boolean deleteWithValidByIds(Collection<Long> ids, Boolean isValid) {
+    public Boolean deleteWithValidByIds(Collection<String> ids, Boolean isValid) {
         if(isValid){
             //TODO 做一些业务上的校验,判断是否需要校验
         }

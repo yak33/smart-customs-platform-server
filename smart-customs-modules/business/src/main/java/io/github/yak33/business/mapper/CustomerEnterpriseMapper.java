@@ -5,10 +5,10 @@ import io.github.yak33.business.domain.vo.CustomerEnterpriseVo;
 import io.github.yak33.common.mybatis.core.mapper.BaseMapperPlus;
 
 /**
- * 企业海关备案信息库Mapper接口
+ * 企业海关备案信息Mapper接口
  *
  * @author ZHANGCHAO
- * @date 2025-10-19
+ * @date 2026-01-20
  */
 public interface CustomerEnterpriseMapper extends BaseMapperPlus<CustomerEnterprise, CustomerEnterpriseVo> {
 

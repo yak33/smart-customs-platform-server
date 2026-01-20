@@ -22,10 +22,10 @@ import java.util.Collection;
 import static cn.hutool.core.text.CharSequenceUtil.isNotBlank;
 
 /**
- * 货物单位编码Service业务层处理
+ * 计量单位Service业务层处理
  *
  * @author ZHANGCHAO
- * @date 2025-10-18
+ * @date 2026-01-19
  */
 @Slf4j
 @RequiredArgsConstructor
@@ -35,10 +35,10 @@ public class ErpUnitsServiceImpl implements IErpUnitsService {
     private final ErpUnitsMapper baseMapper;
 
     /**
-     * 查询货物单位编码
+     * 查询计量单位
      *
      * @param id 主键
-     * @return 货物单位编码
+     * @return 计量单位
      */
     @Override
     public ErpUnitsVo queryById(String id){
@@ -46,11 +46,11 @@ public class ErpUnitsServiceImpl implements IErpUnitsService {
     }
 
     /**
-     * 分页查询货物单位编码列表
+     * 分页查询计量单位列表
      *
      * @param bo        查询条件
      * @param pageQuery 分页参数
-     * @return 货物单位编码分页列表
+     * @return 计量单位分页列表
      */
     @Override
     public TableDataInfo<ErpUnitsVo> queryPageList(ErpUnitsBo bo, PageQuery pageQuery) {
@@ -60,10 +60,10 @@ public class ErpUnitsServiceImpl implements IErpUnitsService {
     }
 
     /**
-     * 查询符合条件的货物单位编码列表
+     * 查询符合条件的计量单位列表
      *
      * @param bo 查询条件
-     * @return 货物单位编码列表
+     * @return 计量单位列表
      */
     @Override
     public List<ErpUnitsVo> queryList(ErpUnitsBo bo) {
@@ -83,9 +83,9 @@ public class ErpUnitsServiceImpl implements IErpUnitsService {
     }
 
     /**
-     * 新增货物单位编码
+     * 新增计量单位
      *
-     * @param bo 货物单位编码
+     * @param bo 计量单位
      * @return 是否新增成功
      */
     @Override
@@ -100,9 +100,9 @@ public class ErpUnitsServiceImpl implements IErpUnitsService {
     }
 
     /**
-     * 修改货物单位编码
+     * 修改计量单位
      *
-     * @param bo 货物单位编码
+     * @param bo 计量单位
      * @return 是否修改成功
      */
     @Override
@@ -120,7 +120,7 @@ public class ErpUnitsServiceImpl implements IErpUnitsService {
     }
 
     /**
-     * 校验并批量删除货物单位编码信息
+     * 校验并批量删除计量单位信息
      *
      * @param ids     待删除的主键集合
      * @param isValid 是否进行有效性校验

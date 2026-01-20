@@ -1,7 +1,6 @@
 package io.github.yak33.business.service.impl;
 
 import io.github.yak33.common.core.utils.MapstructUtils;
-import io.github.yak33.common.core.utils.StringUtils;
 import io.github.yak33.common.mybatis.core.page.TableDataInfo;
 import io.github.yak33.common.mybatis.core.page.PageQuery;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -20,11 +19,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Collection;
 
+import static cn.hutool.core.text.CharSequenceUtil.isNotBlank;
+
 /**
- * 海关编码申报税则相关Service业务层处理
+ * 海关编码税则Service业务层处理
  *
  * @author ZHANGCHAO
- * @date 2025-09-08
+ * @date 2026-01-19
  */
 @Slf4j
 @RequiredArgsConstructor
@@ -34,10 +35,10 @@ public class ErpHscodeServiceImpl implements IErpHscodeService {
     private final ErpHscodeMapper baseMapper;
 
     /**
-     * 查询海关编码申报税则相关
+     * 查询海关编码税则
      *
      * @param id 主键
-     * @return 海关编码申报税则相关
+     * @return 海关编码税则
      */
     @Override
     public ErpHscodeVo queryById(Long id){
@@ -45,11 +46,11 @@ public class ErpHscodeServiceImpl implements IErpHscodeService {
     }
 
     /**
-     * 分页查询海关编码申报税则相关列表
+     * 分页查询海关编码税则列表
      *
      * @param bo        查询条件
      * @param pageQuery 分页参数
-     * @return 海关编码申报税则相关分页列表
+     * @return 海关编码税则分页列表
      */
     @Override
     public TableDataInfo<ErpHscodeVo> queryPageList(ErpHscodeBo bo, PageQuery pageQuery) {
@@ -59,10 +60,10 @@ public class ErpHscodeServiceImpl implements IErpHscodeService {
     }
 
     /**
-     * 查询符合条件的海关编码申报税则相关列表
+     * 查询符合条件的海关编码税则列表
      *
      * @param bo 查询条件
-     * @return 海关编码申报税则相关列表
+     * @return 海关编码税则列表
      */
     @Override
     public List<ErpHscodeVo> queryList(ErpHscodeBo bo) {
@@ -71,29 +72,30 @@ public class ErpHscodeServiceImpl implements IErpHscodeService {
     }
 
     private LambdaQueryWrapper<ErpHscode> buildQueryWrapper(ErpHscodeBo bo) {
+        Map<String, Object> params = bo.getParams();
         LambdaQueryWrapper<ErpHscode> lqw = Wrappers.lambdaQuery();
         lqw.orderByAsc(ErpHscode::getId);
-        lqw.like(StringUtils.isNotBlank(bo.getHscode()), ErpHscode::getHscode, bo.getHscode());
-        lqw.like(StringUtils.isNotBlank(bo.getGname()), ErpHscode::getGname, bo.getGname());
-        lqw.like(StringUtils.isNotBlank(bo.getControLmark()), ErpHscode::getControLmark, bo.getControLmark());
-        lqw.like(StringUtils.isNotBlank(bo.getUnit1()), ErpHscode::getUnit1, bo.getUnit1());
-        lqw.like(StringUtils.isNotBlank(bo.getUnit1name()), ErpHscode::getUnit1name, bo.getUnit1name());
-        lqw.like(StringUtils.isNotBlank(bo.getUnit2()), ErpHscode::getUnit2, bo.getUnit2());
-        lqw.like(StringUtils.isNotBlank(bo.getUnit2name()), ErpHscode::getUnit2name, bo.getUnit2name());
-        lqw.like(StringUtils.isNotBlank(bo.getInspmonitorcond()), ErpHscode::getInspmonitorcond, bo.getInspmonitorcond());
-        lqw.like(StringUtils.isNotBlank(bo.getNotes()), ErpHscode::getNotes, bo.getNotes());
-        lqw.like(StringUtils.isNotBlank(bo.getSbys()), ErpHscode::getSbys, bo.getSbys());
-        lqw.like(StringUtils.isNotBlank(bo.getCiqlist()), ErpHscode::getCiqlist, bo.getCiqlist());
-        lqw.like(StringUtils.isNotBlank(bo.getCiqclass()), ErpHscode::getCiqclass, bo.getCiqclass());
-        lqw.like(StringUtils.isNotBlank(bo.getSbysRequired()), ErpHscode::getSbysRequired, bo.getSbysRequired());
+        lqw.eq(isNotBlank(bo.getHscode()), ErpHscode::getHscode, bo.getHscode());
+        lqw.like(isNotBlank(bo.getGname()), ErpHscode::getGname, bo.getGname());
+        lqw.eq(isNotBlank(bo.getControLmark()), ErpHscode::getControLmark, bo.getControLmark());
+        lqw.eq(isNotBlank(bo.getUnit1()), ErpHscode::getUnit1, bo.getUnit1());
+        lqw.like(isNotBlank(bo.getUnit1name()), ErpHscode::getUnit1name, bo.getUnit1name());
+        lqw.eq(isNotBlank(bo.getUnit2()), ErpHscode::getUnit2, bo.getUnit2());
+        lqw.like(isNotBlank(bo.getUnit2name()), ErpHscode::getUnit2name, bo.getUnit2name());
+        lqw.eq(isNotBlank(bo.getInspmonitorcond()), ErpHscode::getInspmonitorcond, bo.getInspmonitorcond());
+        lqw.eq(isNotBlank(bo.getNotes()), ErpHscode::getNotes, bo.getNotes());
+        lqw.eq(isNotBlank(bo.getSbys()), ErpHscode::getSbys, bo.getSbys());
+        lqw.eq(isNotBlank(bo.getCiqlist()), ErpHscode::getCiqlist, bo.getCiqlist());
+        lqw.eq(isNotBlank(bo.getCiqclass()), ErpHscode::getCiqclass, bo.getCiqclass());
+        lqw.eq(isNotBlank(bo.getSbysRequired()), ErpHscode::getSbysRequired, bo.getSbysRequired());
         lqw.eq(bo.getIsEnable() != null, ErpHscode::getIsEnable, bo.getIsEnable());
         return lqw;
     }
 
     /**
-     * 新增海关编码申报税则相关
+     * 新增海关编码税则
      *
-     * @param bo 海关编码申报税则相关
+     * @param bo 海关编码税则
      * @return 是否新增成功
      */
     @Override
@@ -108,9 +110,9 @@ public class ErpHscodeServiceImpl implements IErpHscodeService {
     }
 
     /**
-     * 修改海关编码申报税则相关
+     * 修改海关编码税则
      *
-     * @param bo 海关编码申报税则相关
+     * @param bo 海关编码税则
      * @return 是否修改成功
      */
     @Override
@@ -128,7 +130,7 @@ public class ErpHscodeServiceImpl implements IErpHscodeService {
     }
 
     /**
-     * 校验并批量删除海关编码申报税则相关信息
+     * 校验并批量删除海关编码税则信息
      *
      * @param ids     待删除的主键集合
      * @param isValid 是否进行有效性校验

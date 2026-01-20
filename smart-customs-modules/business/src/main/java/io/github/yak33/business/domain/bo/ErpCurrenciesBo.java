@@ -23,7 +23,7 @@ public class ErpCurrenciesBo extends BaseEntity {
     /**
      * 主键
      */
-    @NotBlank(message = "主键不能为空", groups = { EditGroup.class })
+    @NotBlank(message = "ID不能为空", groups = { EditGroup.class })
     private String id;
 
     /**

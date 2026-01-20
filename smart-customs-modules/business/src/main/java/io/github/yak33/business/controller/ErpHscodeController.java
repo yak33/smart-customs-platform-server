@@ -23,56 +23,56 @@ import io.github.yak33.business.service.IErpHscodeService;
 import io.github.yak33.common.mybatis.core.page.TableDataInfo;
 
 /**
- * 海关编码申报税则相关
+ * 海关编码税则
  *
  * @author ZHANGCHAO
- * @date 2025-09-08
+ * @date 2026-01-19
  */
 @Validated
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/business/hscode")
+@RequestMapping("/trade-compliance-library/hscode")
 public class ErpHscodeController extends BaseController {
 
     private final IErpHscodeService erpHscodeService;
 
     /**
-     * 查询海关编码申报税则相关列表
+     * 查询海关编码税则列表
      */
-    @SaCheckPermission("business:hscode:list")
+    @SaCheckPermission("tradeComplianceLibrary:hscode:list")
     @GetMapping("/list")
     public TableDataInfo<ErpHscodeVo> list(ErpHscodeBo bo, PageQuery pageQuery) {
         return erpHscodeService.queryPageList(bo, pageQuery);
     }
 
     /**
-     * 导出海关编码申报税则相关列表
+     * 导出海关编码税则列表
      */
-    @SaCheckPermission("business:hscode:export")
-    @Log(title = "海关编码申报税则相关", businessType = BusinessType.EXPORT)
+    @SaCheckPermission("tradeComplianceLibrary:hscode:export")
+    @Log(title = "海关编码税则", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(ErpHscodeBo bo, HttpServletResponse response) {
         List<ErpHscodeVo> list = erpHscodeService.queryList(bo);
-        ExcelUtil.exportExcel(list, "海关编码申报税则相关", ErpHscodeVo.class, response);
+        ExcelUtil.exportExcel(list, "海关编码税则", ErpHscodeVo.class, response);
     }
 
     /**
-     * 获取海关编码申报税则相关详细信息
+     * 获取海关编码税则详细信息
      *
      * @param id 主键
      */
-    @SaCheckPermission("business:hscode:query")
+    @SaCheckPermission("tradeComplianceLibrary:hscode:query")
     @GetMapping("/{id}")
-    public R<ErpHscodeVo> getInfo(@NotNull(message = "主键不能为空")
+    public R<ErpHscodeVo> getInfo(@NotNull(message = "ID不能为空")
                                      @PathVariable Long id) {
         return R.ok(erpHscodeService.queryById(id));
     }
 
     /**
-     * 新增海关编码申报税则相关
+     * 新增海关编码税则
      */
-    @SaCheckPermission("business:hscode:add")
-    @Log(title = "海关编码申报税则相关", businessType = BusinessType.INSERT)
+    @SaCheckPermission("tradeComplianceLibrary:hscode:add")
+    @Log(title = "海关编码税则", businessType = BusinessType.INSERT)
     @RepeatSubmit()
     @PostMapping()
     public R<Void> add(@Validated(AddGroup.class) @RequestBody ErpHscodeBo bo) {
@@ -80,10 +80,10 @@ public class ErpHscodeController extends BaseController {
     }
 
     /**
-     * 修改海关编码申报税则相关
+     * 修改海关编码税则
      */
-    @SaCheckPermission("business:hscode:edit")
-    @Log(title = "海关编码申报税则相关", businessType = BusinessType.UPDATE)
+    @SaCheckPermission("tradeComplianceLibrary:hscode:edit")
+    @Log(title = "海关编码税则", businessType = BusinessType.UPDATE)
     @RepeatSubmit()
     @PutMapping()
     public R<Void> edit(@Validated(EditGroup.class) @RequestBody ErpHscodeBo bo) {
@@ -91,12 +91,12 @@ public class ErpHscodeController extends BaseController {
     }
 
     /**
-     * 删除海关编码申报税则相关
+     * 删除海关编码税则
      *
      * @param ids 主键串
      */
-    @SaCheckPermission("business:hscode:remove")
-    @Log(title = "海关编码申报税则相关", businessType = BusinessType.DELETE)
+    @SaCheckPermission("tradeComplianceLibrary:hscode:remove")
+    @Log(title = "海关编码税则", businessType = BusinessType.DELETE)
     @DeleteMapping("/{ids}")
     public R<Void> remove(@NotEmpty(message = "主键不能为空")
                           @PathVariable Long[] ids) {

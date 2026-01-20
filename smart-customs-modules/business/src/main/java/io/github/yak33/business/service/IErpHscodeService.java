@@ -9,56 +9,56 @@ import java.util.Collection;
 import java.util.List;
 
 /**
- * 海关编码申报税则相关Service接口
+ * 海关编码税则Service接口
  *
  * @author ZHANGCHAO
- * @date 2025-09-08
+ * @date 2026-01-19
  */
 public interface IErpHscodeService {
 
     /**
-     * 查询海关编码申报税则相关
+     * 查询海关编码税则
      *
      * @param id 主键
-     * @return 海关编码申报税则相关
+     * @return 海关编码税则
      */
     ErpHscodeVo queryById(Long id);
 
     /**
-     * 分页查询海关编码申报税则相关列表
+     * 分页查询海关编码税则列表
      *
      * @param bo        查询条件
      * @param pageQuery 分页参数
-     * @return 海关编码申报税则相关分页列表
+     * @return 海关编码税则分页列表
      */
     TableDataInfo<ErpHscodeVo> queryPageList(ErpHscodeBo bo, PageQuery pageQuery);
 
     /**
-     * 查询符合条件的海关编码申报税则相关列表
+     * 查询符合条件的海关编码税则列表
      *
      * @param bo 查询条件
-     * @return 海关编码申报税则相关列表
+     * @return 海关编码税则列表
      */
     List<ErpHscodeVo> queryList(ErpHscodeBo bo);
 
     /**
-     * 新增海关编码申报税则相关
+     * 新增海关编码税则
      *
-     * @param bo 海关编码申报税则相关
+     * @param bo 海关编码税则
      * @return 是否新增成功
      */
     Boolean insertByBo(ErpHscodeBo bo);
 
     /**
-     * 修改海关编码申报税则相关
+     * 修改海关编码税则
      *
-     * @param bo 海关编码申报税则相关
+     * @param bo 海关编码税则
      * @return 是否修改成功
      */
     Boolean updateByBo(ErpHscodeBo bo);
 
     /**
-     * 校验并批量删除海关编码申报税则相关信息
+     * 校验并批量删除海关编码税则信息
      *
      * @param ids     待删除的主键集合
      * @param isValid 是否进行有效性校验

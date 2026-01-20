@@ -23,45 +23,45 @@ import io.github.yak33.business.service.IErpUnitsService;
 import io.github.yak33.common.mybatis.core.page.TableDataInfo;
 
 /**
- * 货物单位编码
+ * 计量单位
  *
  * @author ZHANGCHAO
- * @date 2025-10-18
+ * @date 2026-01-19
  */
 @Validated
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/business/units")
+@RequestMapping("/trade-compliance-library/units")
 public class ErpUnitsController extends BaseController {
 
     private final IErpUnitsService erpUnitsService;
 
     /**
-     * 查询货物单位编码列表
+     * 查询计量单位列表
      */
-    @SaCheckPermission("business:units:list")
+    @SaCheckPermission("tradeComplianceLibrary:units:list")
     @GetMapping("/list")
     public TableDataInfo<ErpUnitsVo> list(ErpUnitsBo bo, PageQuery pageQuery) {
         return erpUnitsService.queryPageList(bo, pageQuery);
     }
 
     /**
-     * 导出货物单位编码列表
+     * 导出计量单位列表
      */
-    @SaCheckPermission("business:units:export")
-    @Log(title = "货物单位编码", businessType = BusinessType.EXPORT)
+    @SaCheckPermission("tradeComplianceLibrary:units:export")
+    @Log(title = "计量单位", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(ErpUnitsBo bo, HttpServletResponse response) {
         List<ErpUnitsVo> list = erpUnitsService.queryList(bo);
-        ExcelUtil.exportExcel(list, "货物单位编码", ErpUnitsVo.class, response);
+        ExcelUtil.exportExcel(list, "计量单位", ErpUnitsVo.class, response);
     }
 
     /**
-     * 获取货物单位编码详细信息
+     * 获取计量单位详细信息
      *
      * @param id 主键
      */
-    @SaCheckPermission("business:units:query")
+    @SaCheckPermission("tradeComplianceLibrary:units:query")
     @GetMapping("/{id}")
     public R<ErpUnitsVo> getInfo(@NotNull(message = "主键不能为空")
                                      @PathVariable String id) {
@@ -69,10 +69,10 @@ public class ErpUnitsController extends BaseController {
     }
 
     /**
-     * 新增货物单位编码
+     * 新增计量单位
      */
-    @SaCheckPermission("business:units:add")
-    @Log(title = "货物单位编码", businessType = BusinessType.INSERT)
+    @SaCheckPermission("tradeComplianceLibrary:units:add")
+    @Log(title = "计量单位", businessType = BusinessType.INSERT)
     @RepeatSubmit()
     @PostMapping()
     public R<Void> add(@Validated(AddGroup.class) @RequestBody ErpUnitsBo bo) {
@@ -80,10 +80,10 @@ public class ErpUnitsController extends BaseController {
     }
 
     /**
-     * 修改货物单位编码
+     * 修改计量单位
      */
-    @SaCheckPermission("business:units:edit")
-    @Log(title = "货物单位编码", businessType = BusinessType.UPDATE)
+    @SaCheckPermission("tradeComplianceLibrary:units:edit")
+    @Log(title = "计量单位", businessType = BusinessType.UPDATE)
     @RepeatSubmit()
     @PutMapping()
     public R<Void> edit(@Validated(EditGroup.class) @RequestBody ErpUnitsBo bo) {
@@ -91,12 +91,12 @@ public class ErpUnitsController extends BaseController {
     }
 
     /**
-     * 删除货物单位编码
+     * 删除计量单位
      *
      * @param ids 主键串
      */
-    @SaCheckPermission("business:units:remove")
-    @Log(title = "货物单位编码", businessType = BusinessType.DELETE)
+    @SaCheckPermission("tradeComplianceLibrary:units:remove")
+    @Log(title = "计量单位", businessType = BusinessType.DELETE)
     @DeleteMapping("/{ids}")
     public R<Void> remove(@NotEmpty(message = "主键不能为空")
                           @PathVariable String[] ids) {

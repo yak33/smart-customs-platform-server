@@ -3,18 +3,20 @@ package io.github.yak33.business.domain.vo;
 import io.github.yak33.business.domain.ErpHscode;
 import cn.idev.excel.annotation.ExcelIgnoreUnannotated;
 import cn.idev.excel.annotation.ExcelProperty;
+import io.github.yak33.common.excel.annotation.ExcelDictFormat;
+import io.github.yak33.common.excel.convert.ExcelDictConvert;
 import io.github.linpeilie.annotations.AutoMapper;
 import lombok.Data;
 
 import java.io.Serial;
 import java.io.Serializable;
-
+import java.util.Date;
 
 /**
- * 海关编码申报税则相关视图对象 erp_hscode
+ * 海关编码税则视图对象 erp_hscode
  *
  * @author ZHANGCHAO
- * @date 2025-09-08
+ * @date 2026-01-19
  */
 @Data
 @ExcelIgnoreUnannotated
@@ -27,7 +29,7 @@ public class ErpHscodeVo implements Serializable {
     /**
      * 主键
      */
-    @ExcelProperty(value = "主键")
+    @ExcelProperty(value = "ID")
     private Long id;
 
     /**
@@ -93,7 +95,7 @@ public class ErpHscodeVo implements Serializable {
     /**
      * 商检编码：名称
      */
-    @ExcelProperty(value = "商检编码：名称")
+    @ExcelProperty(value = "商检编码名称")
     private String ciqlist;
 
     /**

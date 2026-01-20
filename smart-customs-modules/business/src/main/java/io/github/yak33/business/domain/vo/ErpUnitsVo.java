@@ -12,13 +12,11 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.util.Date;
 
-
-
 /**
- * 货物单位编码视图对象 erp_units
+ * 计量单位视图对象 erp_units
  *
  * @author ZHANGCHAO
- * @date 2025-10-18
+ * @date 2026-01-19
  */
 @Data
 @ExcelIgnoreUnannotated
@@ -31,7 +29,7 @@ public class ErpUnitsVo implements Serializable {
     /**
      * 主键
      */
-    @ExcelProperty(value = "主键")
+    @ExcelProperty(value = "ID")
     private String id;
 
     /**
@@ -47,9 +45,9 @@ public class ErpUnitsVo implements Serializable {
     private String name;
 
     /**
-     * 英文代码
+     * 单位英文代码
      */
-    @ExcelProperty(value = "英文代码")
+    @ExcelProperty(value = "单位英文代码")
     private String itemKey;
 
     /**

@@ -10,10 +10,10 @@ import lombok.EqualsAndHashCode;
 import jakarta.validation.constraints.*;
 
 /**
- * 海关编码申报税则相关业务对象 erp_hscode
+ * 海关编码税则业务对象 erp_hscode
  *
  * @author ZHANGCHAO
- * @date 2025-09-08
+ * @date 2026-01-19
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
@@ -23,18 +23,17 @@ public class ErpHscodeBo extends BaseEntity {
     /**
      * 主键
      */
+    @NotNull(message = "ID不能为空", groups = { EditGroup.class })
     private Long id;
 
     /**
      * 税号
      */
-    @NotBlank(message = "税号不能为空", groups = { AddGroup.class, EditGroup.class })
     private String hscode;
 
     /**
      * 商品名称
      */
-    @NotBlank(message = "商品名称不能为空", groups = { AddGroup.class, EditGroup.class })
     private String gname;
 
     /**
@@ -96,5 +95,6 @@ public class ErpHscodeBo extends BaseEntity {
      * 是否启用
      */
     private Long isEnable;
+
 
 }

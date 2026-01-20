@@ -8,10 +8,10 @@ import lombok.EqualsAndHashCode;
 import java.io.Serial;
 
 /**
- * 货物单位编码对象 erp_units
+ * 计量单位对象 erp_units
  *
  * @author ZHANGCHAO
- * @date 2025-10-18
+ * @date 2026-01-19
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
@@ -38,7 +38,7 @@ public class ErpUnits extends TenantEntity {
     private String name;
 
     /**
-     * 英文代码
+     * 单位英文代码
      */
     private String itemKey;
 
@@ -51,7 +51,7 @@ public class ErpUnits extends TenantEntity {
      * 删除标记
      */
     @TableLogic
-    private Integer delFlag;
+    private Long delFlag;
 
     /**
      * 创建部门 - 数据库表中不存在此字段，排除映射

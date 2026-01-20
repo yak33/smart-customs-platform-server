@@ -8,10 +8,10 @@ import lombok.EqualsAndHashCode;
 import java.io.Serial;
 
 /**
- * 海关编码申报税则相关对象 erp_hscode
+ * 海关编码税则对象 erp_hscode
  *
  * @author ZHANGCHAO
- * @date 2025-09-08
+ * @date 2026-01-19
  */
 @Data
 @EqualsAndHashCode(callSuper = true)

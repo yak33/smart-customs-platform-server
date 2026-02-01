@@ -16,6 +16,23 @@
   <a href="./CONFIG_README.md">配置说明</a>
 </p>
 
+---
+
+## ⚠️ 重要说明
+
+> **本项目（单体版）已进入维护模式，不再活跃更新。**
+>
+> 建议所有开发者迁移到 **微服务版本**：
+> - 🚀 **GitHub**: [yak33/smart-customs-platform-cloud](https://github.com/yak33/smart-customs-platform-cloud)
+> - 🔗 **Gitee**: [yak33/smart-customs-platform-cloud](https://gitee.com/yak33/smart-customs-platform-cloud)
+> - 📦 **GitCode**: [dearmrzhang/smart-customs-platform-cloud](https://gitcode.com/dearmrzhang/smart-customs-platform-cloud)
+>
+> 微服务版本采用 Spring Cloud Alibaba 架构，具备更好的扩展性、高可用性和服务治理能力，是未来的主要发展方向。
+>
+> 此仓库仅作为历史版本保留，用于参考和对比。
+
+---
+
 ## 📖 项目简介
 
 智慧关务平台后端服务，是一个基于 Spring Boot 3.X 和 Java 21 构建的现代化企业级应用系统，专注于提供智能化的海关业务管理解决方案。项目底层重写自 RuoYi-Vue 和 RuoYi-Vue-Plus，支持多租户、分布式部署，提供完善的权限管理、数据加密、API接口加密等安全特性。
@@ -349,7 +366,14 @@ Closes #123
 **ZHANGCHAO**
 
 - Email: vuanne1@gmail.com
-- GitHub: https://github.com/yak33/smart-customs-platform-server
+- GitHub: https://github.com/yak33
+
+### 相关仓库
+
+| 版本 | 仓库地址 | 状态 |
+|-----|---------|------|
+| 🔵 **微服务版**（推荐） | [smart-customs-platform-cloud](https://github.com/yak33/smart-customs-platform-cloud) | ✅ 活跃维护 |
+| 🟡 **单体版**（当前） | [smart-customs-platform-server](https://github.com/yak33/smart-customs-platform-server) | ⚠️ 维护模式 |
 
 ## 🙏 鸣谢
 
